@@ -1,0 +1,16 @@
+{
+  "version": "1.0.0",
+  "name": "chat",
+  "private": true,
+  "devDependencies": {
+    "gulp": "3.9.1",
+    "gulp-clean": "0.3.2",
+    "glob": "7.1.1",
+    "del": "2.2.0",
+    "gulp-concat": "2.5.2",
+    "gulp-cssmin": "0.1.7",
+    "gulp-ignore": "^2.0.1",
+    "gulp-uglify": "1.2.0",
+    "rimraf": "2.2.8"
+  }
+}
