@@ -7,7 +7,7 @@ namespace Chat.Module.Core.Data
 {
     public class CoreCustomModelBuilder : ICustomModelBuilder
     {
-        public string ContextName => "SecurityManagement";
+        public string ContextName => "SecurityManagementContext";
 
         public void Build(ModelBuilder modelBuilder)
         {

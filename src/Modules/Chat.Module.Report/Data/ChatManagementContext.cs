@@ -25,7 +25,7 @@ namespace Chat.Module.Report.Data
                 typeToRegisters.AddRange(module.Assembly.DefinedTypes.Select(t => t.AsType()));
             }
 
-            RegisterEntities(modelBuilder, typeToRegisters);
+            //RegisterEntities(modelBuilder, typeToRegisters);
 
             RegisterConvention(modelBuilder);
 
@@ -56,17 +56,18 @@ namespace Chat.Module.Report.Data
             }
         }
 
-        private static void RegisterCustomMappings(DbContext dbContext, ModelBuilder modelBuilder, IEnumerable<Type> typeToRegisters)
+        private static void RegisterCustomMappings(DbContext context, ModelBuilder modelBuilder, IEnumerable<Type> typeToRegisters)
         {
             var customModelBuilderTypes = typeToRegisters.Where(x => typeof(ICustomModelBuilder).IsAssignableFrom(x));
             foreach (var builderType in customModelBuilderTypes)
             {
-                var a = builderType.GetProperty("ContextName");
-                var b = dbContext.GetType().Name;
                 if (builderType != null && builderType != typeof(ICustomModelBuilder))
                 {
                     var builder = (ICustomModelBuilder)Activator.CreateInstance(builderType);
-                    builder.Build(modelBuilder);
+                    if(builder.ContextName == context.GetType().Name)
+                    {
+                        builder.Build(modelBuilder);
+                    }
                 }
             }
         }

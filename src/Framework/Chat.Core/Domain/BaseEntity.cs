@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Chat.Core.Domain
 {
-    public class BaseEntity : BaseEntityWithTypeId<long>
+    public abstract class BaseEntity : BaseEntityWithTypeId<long>
     {
     }
 }

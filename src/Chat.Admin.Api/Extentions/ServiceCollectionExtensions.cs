@@ -146,11 +146,11 @@ namespace Chat.Admin.Api.Extentions
 
         public static IServiceCollection AddCustomizedDataStore(this IServiceCollection services, ISettings settings)
         {
-            services.AddDbContextPool<SecurityManagementContext>(dbOptions =>
+            services.AddDbContext<SecurityManagementContext>(dbOptions =>
                 dbOptions.UseSqlServer(settings.ConnectionStrings.SecurityManagement, sqlOptions =>
                     sqlOptions.MigrationsAssembly("Chat.Admin.Api")));
 
-            services.AddDbContextPool<ChatManagementContext>(dbOptions =>
+            services.AddDbContext<ChatManagementContext>(dbOptions =>
                 dbOptions.UseSqlServer(settings.ConnectionStrings.ChatManagement, sqlOptions =>
                     sqlOptions.MigrationsAssembly("Chat.Admin.Api")));
 
@@ -189,7 +189,7 @@ namespace Chat.Admin.Api.Extentions
         {
             var builder = new ContainerBuilder();
             builder.RegisterGeneric(typeof(Repository<, ,>)).As(typeof(IRepository<, ,>));
-
+            //builder.Register<>
             foreach (var module in GlobalConfiguration.Modules)
             {
                 builder.RegisterAssemblyTypes(module.Assembly).AsImplementedInterfaces();
