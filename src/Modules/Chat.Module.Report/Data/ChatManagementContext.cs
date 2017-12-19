@@ -1,4 +1,5 @@
-﻿using Chat.Core.Configuration;
+﻿using Chat.Core;
+using Chat.Core.Configuration;
 using Chat.Core.Data;
 using Chat.Core.Domain;
 using Microsoft.EntityFrameworkCore;
@@ -27,49 +28,11 @@ namespace Chat.Module.Report.Data
 
             //RegisterEntities(modelBuilder, typeToRegisters);
 
-            RegisterConvention(modelBuilder);
+            modelBuilder.RegisterConvention();
 
             base.OnModelCreating(modelBuilder);
 
-            RegisterCustomMappings(this, modelBuilder, typeToRegisters);
-        }
-
-        private static void RegisterConvention(ModelBuilder modelBuilder)
-        {
-            foreach (var entity in modelBuilder.Model.GetEntityTypes())
-            {
-                if (entity.ClrType.Namespace != null)
-                {
-                    var nameParts = entity.ClrType.Namespace.Split('.');
-                    var tableName = string.Concat(nameParts[2], "_", entity.ClrType.Name);
-                    modelBuilder.Entity(entity.Name).ToTable(tableName);
-                }
-            }
-        }
-
-        private static void RegisterEntities(ModelBuilder modelBuilder, IEnumerable<Type> typeToRegisters)
-        {
-            var entityTypes = typeToRegisters.Where(x => x.GetTypeInfo().IsSubclassOf(typeof(BaseEntity)) && !x.GetTypeInfo().IsAbstract);
-            foreach (var type in entityTypes)
-            {
-                modelBuilder.Entity(type);
-            }
-        }
-
-        private static void RegisterCustomMappings(DbContext context, ModelBuilder modelBuilder, IEnumerable<Type> typeToRegisters)
-        {
-            var customModelBuilderTypes = typeToRegisters.Where(x => typeof(ICustomModelBuilder).IsAssignableFrom(x));
-            foreach (var builderType in customModelBuilderTypes)
-            {
-                if (builderType != null && builderType != typeof(ICustomModelBuilder))
-                {
-                    var builder = (ICustomModelBuilder)Activator.CreateInstance(builderType);
-                    if(builder.ContextName == context.GetType().Name)
-                    {
-                        builder.Build(modelBuilder);
-                    }
-                }
-            }
+            modelBuilder.RegisterCustomMappings(this, typeToRegisters);
         }
 
         public void Commit()
