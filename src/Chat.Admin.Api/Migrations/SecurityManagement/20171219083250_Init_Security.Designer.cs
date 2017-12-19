@@ -11,7 +11,7 @@ using System;
 namespace Chat.Admin.Api.Migrations.SecurityManagement
 {
     [DbContext(typeof(SecurityManagementContext))]
-    [Migration("20171218140210_Init_Security")]
+    [Migration("20171219083250_Init_Security")]
     partial class Init_Security
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -107,20 +107,6 @@ namespace Chat.Admin.Api.Migrations.SecurityManagement
                     b.HasIndex("RoleId");
 
                     b.ToTable("Core_UserRole");
-                });
-
-            modelBuilder.Entity("Chat.Module.Report.Models.ReportChat", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<DateTime>("ReportedDate");
-
-                    b.Property<decimal>("Result");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Report_ReportChat");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<long>", b =>

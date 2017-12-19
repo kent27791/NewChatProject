@@ -108,20 +108,6 @@ namespace Chat.Admin.Api.Migrations.SecurityManagement
                     b.ToTable("Core_UserRole");
                 });
 
-            modelBuilder.Entity("Chat.Module.Report.Models.ReportChat", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<DateTime>("ReportedDate");
-
-                    b.Property<decimal>("Result");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Report_ReportChat");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<long>", b =>
                 {
                     b.Property<int>("Id")

@@ -26,6 +26,9 @@ using Chat.Module.Core.Extentions;
 using Chat.Module.Core.Data;
 using Chat.Data;
 using Chat.Module.Report.Data;
+using System.Text;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace Chat.Admin.Api.Extentions
 {
@@ -128,6 +131,7 @@ namespace Chat.Admin.Api.Extentions
             }
             return services;
         }
+
         public static IServiceCollection AddCustomizedIdentity(this IServiceCollection services)
         {
             services
@@ -135,11 +139,6 @@ namespace Chat.Admin.Api.Extentions
                 .AddRoleStore<SecurityRoleStore>()
                 .AddUserStore<SecurityUserStore>()
                 .AddDefaultTokenProviders();
-
-            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-                .AddCookie(o => o.LoginPath = new PathString("/login"));
-
-            services.ConfigureApplicationCookie(x => x.LoginPath = new PathString("/login"));
 
             return services;
         }
@@ -154,6 +153,29 @@ namespace Chat.Admin.Api.Extentions
                 dbOptions.UseSqlServer(settings.ConnectionStrings.ChatManagement, sqlOptions =>
                     sqlOptions.MigrationsAssembly("Chat.Admin.Api")));
 
+            return services;
+        }
+
+        public static IServiceCollection AddCustomizedAuthentication(this IServiceCollection services, ISettings settings)
+        {
+            services.AddAuthentication(config =>
+                    {
+                        config.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                        config.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                    })
+                    .AddJwtBearer(options =>
+                    {
+                        options.TokenValidationParameters = new TokenValidationParameters
+                        {
+                            ValidateIssuer = true,
+                            ValidateAudience = true,
+                            ValidateLifetime = true,
+                            ValidateIssuerSigningKey = true,
+                            ValidIssuer = "yourdomain.com",
+                            ValidAudience = "yourdomain.com",
+                            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("SecurityKeySecurityKeySecurityKey"))
+                        };
+                    });
             return services;
         }
 
@@ -183,13 +205,10 @@ namespace Chat.Admin.Api.Extentions
             return services;
         }
 
-        
-
         public static IServiceProvider Build(this IServiceCollection services, IConfiguration configuration, IHostingEnvironment hostingEnvironment)
         {
             var builder = new ContainerBuilder();
             builder.RegisterGeneric(typeof(Repository<, ,>)).As(typeof(IRepository<, ,>));
-            //builder.Register<>
             foreach (var module in GlobalConfiguration.Modules)
             {
                 builder.RegisterAssemblyTypes(module.Assembly).AsImplementedInterfaces();

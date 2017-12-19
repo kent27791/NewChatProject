@@ -1,4 +1,5 @@
 ﻿using Chat.Module.Core.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -8,6 +9,7 @@ using System.Threading.Tasks;
 namespace Chat.Module.Core.Controllers
 {
     [Route("api/values")]
+    [Authorize]
     public class ValuesController : Controller
     {
         private readonly IRoleService _roleService;

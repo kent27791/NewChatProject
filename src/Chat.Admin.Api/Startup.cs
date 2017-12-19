@@ -37,6 +37,7 @@ namespace Chat.Admin.Api
 
             services.AddCustomizedDataStore(_settings);
             services.AddCustomizedIdentity();
+            services.AddCustomizedAuthentication(_settings);
 
             services.AddScoped<SignInManager<User>, SecuritySignInManager<User>>();
             services.AddScoped<IWorkContext, WorkContext>();
@@ -58,10 +59,10 @@ namespace Chat.Admin.Api
                 app.UseExceptionHandler("/Home/Error");
             }
             app.UseStatusCodePagesWithReExecute("/Home/ErrorWithCode/{0}");
-
             app.UseCustomizedStaticFiles(env);
             app.UseCustomizedIdentity();
             app.UseCustomizedMvc();
+            
         }
     }
 }

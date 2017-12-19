@@ -51,20 +51,6 @@ namespace Chat.Admin.Api.Migrations.SecurityManagement
                 });
 
             migrationBuilder.CreateTable(
-                name: "Report_ReportChat",
-                columns: table => new
-                {
-                    Id = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    ReportedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Result = table.Column<decimal>(type: "decimal(18, 2)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Report_ReportChat", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Core_RoleClaim",
                 columns: table => new
                 {
@@ -226,9 +212,6 @@ namespace Chat.Admin.Api.Migrations.SecurityManagement
 
             migrationBuilder.DropTable(
                 name: "Core_UserToken");
-
-            migrationBuilder.DropTable(
-                name: "Report_ReportChat");
 
             migrationBuilder.DropTable(
                 name: "Core_Role");
