@@ -33,17 +33,16 @@ namespace Chat.Admin.Api
         {
             GlobalConfiguration.WebRootPath = _hostingEnvironment.WebRootPath;
             GlobalConfiguration.ContentRootPath = _hostingEnvironment.ContentRootPath;
+
             services.LoadInstalledModules(_hostingEnvironment.ContentRootPath);
 
             services.AddCustomizedDataStore(_settings);
             services.AddCustomizedIdentity();
             services.AddCustomizedAuthentication(_settings);
+            services.AddCustomizedMvc(GlobalConfiguration.Modules);
 
             services.AddScoped<SignInManager<User>, SecuritySignInManager<User>>();
             services.AddScoped<IWorkContext, WorkContext>();
-
-            services.AddCustomizedMvc(GlobalConfiguration.Modules);
-
             return services.Build(_configuration, _hostingEnvironment);
         }
 
@@ -58,7 +57,7 @@ namespace Chat.Admin.Api
             {
                 app.UseExceptionHandler("/Home/Error");
             }
-            app.UseStatusCodePagesWithReExecute("/Home/ErrorWithCode/{0}");
+            //app.UseStatusCodePagesWithReExecute("/Home/ErrorWithCode/{0}");
             app.UseCustomizedStaticFiles(env);
             app.UseCustomizedIdentity();
             app.UseCustomizedMvc();

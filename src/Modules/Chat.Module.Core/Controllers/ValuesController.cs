@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace Chat.Module.Core.Controllers
 {
     [Route("api/values")]
-    [Authorize]
+    [Authorize(Policy = "OnlyOver18")]
     public class ValuesController : Controller
     {
         private readonly IRoleService _roleService;

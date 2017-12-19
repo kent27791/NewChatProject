@@ -29,6 +29,9 @@ using Chat.Module.Report.Data;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.Extensions.Options;
+using Microsoft.AspNetCore.Authorization;
+using Chat.Module.Core.CustomAuthorizationRequirement;
 
 namespace Chat.Admin.Api.Extentions
 {
@@ -137,8 +140,8 @@ namespace Chat.Admin.Api.Extentions
             services
                 .AddIdentity<User, Role>()
                 .AddRoleStore<SecurityRoleStore>()
-                .AddUserStore<SecurityUserStore>()
-                .AddDefaultTokenProviders();
+                .AddUserStore<SecurityUserStore>();
+                //.AddDefaultTokenProviders();
 
             return services;
         }
@@ -176,6 +179,10 @@ namespace Chat.Admin.Api.Extentions
                             IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("SecurityKeySecurityKeySecurityKey"))
                         };
                     });
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("OnlyOver18", policy => policy.Requirements.Add(new MinimumAgeRequirement(18)));
+            });
             return services;
         }
 
@@ -213,7 +220,7 @@ namespace Chat.Admin.Api.Extentions
             {
                 builder.RegisterAssemblyTypes(module.Assembly).AsImplementedInterfaces();
             }
-
+            builder.RegisterType<MinimumAgeHandler>().As<IAuthorizationHandler>();
             builder.RegisterInstance(configuration);
             builder.RegisterInstance(hostingEnvironment);
 
