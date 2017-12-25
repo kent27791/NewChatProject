@@ -20,12 +20,7 @@ namespace Chat.Admin.Api.Extentions
 
         public static IApplicationBuilder UseCustomizedMvc(this IApplicationBuilder app)
         {
-            app.UseMvc(routes =>
-            {
-                routes.MapRoute(
-                    "default",
-                    "{controller=Home}/{action=Index}/{id?}");
-            });
+            app.UseMvc();
             return app;
         }
 

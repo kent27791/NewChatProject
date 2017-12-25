@@ -46,6 +46,28 @@ namespace Chat.Module.Core.Data
             {
                 b.ToTable("Core_UserToken");
             });
+
+            modelBuilder.Entity<Page>(b =>
+            {
+                b.HasKey(p => p.Id);
+                b.ToTable("Core_Page");
+            });
+
+            modelBuilder.Entity<RolePermission>(b =>
+            {
+                b.HasKey(rp => new { rp.PageId, rp.RoleId });
+                b.HasOne(rp => rp.Role).WithMany(x => x.Pages).HasForeignKey(r => r.RoleId);
+                b.HasOne(rp => rp.Page).WithMany(x => x.Roles).HasForeignKey(p => p.PageId);
+                b.ToTable("Core_RolePermission");
+            });
+
+            modelBuilder.Entity<UserPermission>(b =>
+            {
+                b.HasKey(up => new { up.UserId, up.PageId });
+                b.HasOne(up => up.User).WithMany(x => x.Pages).HasForeignKey(u => u.UserId);
+                b.HasOne(up => up.Page).WithMany(x => x.Users).HasForeignKey(p => p.PageId);
+                b.ToTable("Core_UserPermission");
+            });
         }
     }
 }

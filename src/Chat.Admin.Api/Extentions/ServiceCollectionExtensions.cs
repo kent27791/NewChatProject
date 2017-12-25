@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Text;
 using System.IO;
 using System.Reflection;
 using System.Runtime.Loader;
@@ -10,9 +11,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.CodeAnalysis;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Http;
 
 using Newtonsoft.Json.Serialization;
 
@@ -21,18 +22,14 @@ using Autofac.Extensions.DependencyInjection;
 
 using Chat.Core.Configuration;
 using Chat.Core.Data;
+using Chat.Data;
+
+using Chat.Module.Report.Data;
 using Chat.Module.Core.Models;
 using Chat.Module.Core.Extentions;
 using Chat.Module.Core.Data;
-using Chat.Data;
-using Chat.Module.Report.Data;
-using System.Text;
-using Microsoft.IdentityModel.Tokens;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.Extensions.Options;
-using Microsoft.AspNetCore.Authorization;
-using Chat.Module.Core.CustomAuthorizationRequirement;
 
+using Chat.Admin.Api.Security;
 namespace Chat.Admin.Api.Extentions
 {
     public static class ServiceCollectionExtensions
@@ -101,7 +98,7 @@ namespace Chat.Admin.Api.Extentions
         {
             var mvcBuilder = services
                 .AddMvc()
-                .AddRazorOptions(options => 
+                .AddRazorOptions(options =>
                 {
                     foreach (var module in modules)
                     {
@@ -140,8 +137,8 @@ namespace Chat.Admin.Api.Extentions
             services
                 .AddIdentity<User, Role>()
                 .AddRoleStore<SecurityRoleStore>()
-                .AddUserStore<SecurityUserStore>();
-                //.AddDefaultTokenProviders();
+                .AddUserStore<SecurityUserStore>()
+                .AddDefaultTokenProviders();
 
             return services;
         }
@@ -165,9 +162,12 @@ namespace Chat.Admin.Api.Extentions
                     {
                         config.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                         config.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                        config.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
                     })
                     .AddJwtBearer(options =>
                     {
+                        options.RequireHttpsMetadata = false;
+                        options.SaveToken = true;
                         options.TokenValidationParameters = new TokenValidationParameters
                         {
                             ValidateIssuer = true,
@@ -179,9 +179,18 @@ namespace Chat.Admin.Api.Extentions
                             IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("SecurityKeySecurityKeySecurityKey"))
                         };
                     });
+
+            return services;
+        }
+
+        public static IServiceCollection AddCustomizedAuthorization(this IServiceCollection services)
+        {
             services.AddAuthorization(options =>
             {
-                options.AddPolicy("OnlyOver18", policy => policy.Requirements.Add(new MinimumAgeRequirement(18)));
+                options.AddPolicy("Permission", policy =>
+                {
+                    policy.Requirements.Add(new PermissionRequirement());
+                });
             });
             return services;
         }
@@ -215,12 +224,11 @@ namespace Chat.Admin.Api.Extentions
         public static IServiceProvider Build(this IServiceCollection services, IConfiguration configuration, IHostingEnvironment hostingEnvironment)
         {
             var builder = new ContainerBuilder();
-            builder.RegisterGeneric(typeof(Repository<, ,>)).As(typeof(IRepository<, ,>));
+            builder.RegisterGeneric(typeof(Repository<,,>)).As(typeof(IRepository<,,>));
             foreach (var module in GlobalConfiguration.Modules)
             {
                 builder.RegisterAssemblyTypes(module.Assembly).AsImplementedInterfaces();
             }
-            builder.RegisterType<MinimumAgeHandler>().As<IAuthorizationHandler>();
             builder.RegisterInstance(configuration);
             builder.RegisterInstance(hostingEnvironment);
 
@@ -228,8 +236,5 @@ namespace Chat.Admin.Api.Extentions
             var container = builder.Build();
             return container.Resolve<IServiceProvider>();
         }
-
-
-
     }
 }

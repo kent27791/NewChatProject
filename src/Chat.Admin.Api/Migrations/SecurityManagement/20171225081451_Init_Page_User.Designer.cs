@@ -11,9 +11,10 @@ using System;
 namespace Chat.Admin.Api.Migrations.SecurityManagement
 {
     [DbContext(typeof(SecurityManagementContext))]
-    partial class SecurityManagementContextModelSnapshot : ModelSnapshot
+    [Migration("20171225081451_Init_Page_User")]
+    partial class Init_Page_User
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

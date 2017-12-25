@@ -1,19 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
+
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
-using Chat.Core.Configuration;
-using Chat.Admin.Api.Extentions;
 using Microsoft.AspNetCore.Identity;
-using Chat.Module.Core.Models;
-using Chat.Module.Core.Extentions;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Builder;
 
+using Chat.Admin.Api.Extentions;
+using Chat.Core.Configuration;
+using Chat.Module.Core.Extentions;
+using Chat.Module.Core.Models;
+using Chat.Admin.Api.Security;
 namespace Chat.Admin.Api
 {
     public class Startup
@@ -39,10 +37,13 @@ namespace Chat.Admin.Api
             services.AddCustomizedDataStore(_settings);
             services.AddCustomizedIdentity();
             services.AddCustomizedAuthentication(_settings);
+            services.AddCustomizedAuthorization();
             services.AddCustomizedMvc(GlobalConfiguration.Modules);
+
 
             services.AddScoped<SignInManager<User>, SecuritySignInManager<User>>();
             services.AddScoped<IWorkContext, WorkContext>();
+            services.AddSingleton<IAuthorizationHandler, PermissionHandler>();
             return services.Build(_configuration, _hostingEnvironment);
         }
 
@@ -53,15 +54,15 @@ namespace Chat.Admin.Api
                 app.UseDeveloperExceptionPage();
                 app.UseDatabaseErrorPage();
             }
-            else
-            {
-                app.UseExceptionHandler("/Home/Error");
-            }
-            //app.UseStatusCodePagesWithReExecute("/Home/ErrorWithCode/{0}");
+            //else
+            //{
+            //    app.UseExceptionHandler("/Home/Error");
+            //}
+            //app.UseStatusCodePagesWithReExecute("/Home/ErrorWithCode/{0}"); //authentication return 404.
             app.UseCustomizedStaticFiles(env);
             app.UseCustomizedIdentity();
             app.UseCustomizedMvc();
-            
+
         }
     }
 }

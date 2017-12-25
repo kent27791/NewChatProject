@@ -9,19 +9,19 @@ using System.Threading.Tasks;
 namespace Chat.Module.Core.Controllers
 {
     [Route("api/values")]
-    [Authorize(Policy = "OnlyOver18")]
+    [Authorize(Policy = "Permission")]
     public class ValuesController : Controller
     {
-        private readonly IRoleService _roleService;
-        public ValuesController(IRoleService roleService)
+        //private readonly IRoleService _roleService;
+        public ValuesController(/*IRoleService roleService*/)
         {
-            this._roleService = roleService;
+            //this._roleService = roleService;
         }
 
         [Route("get")]
-        public string[] Get()
+        public IActionResult Get()
         {
-            return _roleService.FindAll().Select(s => s.Name).ToArray();
+            return Ok(/*_roleService.FindAll().Select(s => s.Name).ToArray();*/);
         }
     }
 }

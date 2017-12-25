@@ -11,9 +11,10 @@ using System;
 namespace Chat.Admin.Api.Migrations.SecurityManagement
 {
     [DbContext(typeof(SecurityManagementContext))]
-    partial class SecurityManagementContextModelSnapshot : ModelSnapshot
+    [Migration("20171225075550_Init_Page")]
+    partial class Init_Page
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -134,19 +135,6 @@ namespace Chat.Admin.Api.Migrations.SecurityManagement
                     b.ToTable("Core_User");
                 });
 
-            modelBuilder.Entity("Chat.Module.Core.Models.UserPermission", b =>
-                {
-                    b.Property<long>("UserId");
-
-                    b.Property<long>("PageId");
-
-                    b.HasKey("UserId", "PageId");
-
-                    b.HasIndex("PageId");
-
-                    b.ToTable("Core_UserPermission");
-                });
-
             modelBuilder.Entity("Chat.Module.Core.Models.UserRole", b =>
                 {
                     b.Property<long>("UserId");
@@ -238,19 +226,6 @@ namespace Chat.Admin.Api.Migrations.SecurityManagement
                     b.HasOne("Chat.Module.Core.Models.Role", "Role")
                         .WithMany("Pages")
                         .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("Chat.Module.Core.Models.UserPermission", b =>
-                {
-                    b.HasOne("Chat.Module.Core.Models.Page", "Page")
-                        .WithMany("Users")
-                        .HasForeignKey("PageId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("Chat.Module.Core.Models.User", "User")
-                        .WithMany("Pages")
-                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
