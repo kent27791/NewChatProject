@@ -3,9 +3,10 @@ using Chat.Core.Domain;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
-
+using Dapper;
 namespace Chat.Data
 {
     public class Repository<TContext, TEntity, TKey> : IRepository<TContext, TEntity, TKey>
@@ -13,11 +14,14 @@ namespace Chat.Data
         where TContext : class
     {
         protected readonly IDatabaseContext<TContext> _context;
+        protected readonly IDbConnection _dbConnection;
         protected readonly DbSet<TEntity> _dbSet;
         public Repository(IDatabaseContext<TContext> context)
         {
             _context = context;
+            _dbConnection = (_context as DbContext).Database.GetDbConnection();
             _dbSet = _context.Set<TEntity>();
+            
         }
         public IQueryable<TEntity> Query()
         {
@@ -60,6 +64,11 @@ namespace Chat.Data
         public IQueryable<TEntity> FromSql(RawSqlString sql, params object[] paramters)
         {
             return _dbSet.FromSql(sql, paramters);
+        }
+
+        public IDbConnection GetDbConnection()
+        {
+            return _dbConnection;
         }
     }
 }

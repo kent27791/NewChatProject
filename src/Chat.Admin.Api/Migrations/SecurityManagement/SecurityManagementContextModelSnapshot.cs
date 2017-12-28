@@ -33,13 +33,13 @@ namespace Chat.Admin.Api.Migrations.SecurityManagement
 
                     b.Property<long?>("ParentId");
 
+                    b.Property<string>("Route");
+
                     b.Property<int?>("Type");
 
                     b.Property<DateTime?>("UpdatedOn");
 
                     b.Property<string>("Uri");
-
-                    b.Property<string>("UriTag");
 
                     b.HasKey("Id");
 

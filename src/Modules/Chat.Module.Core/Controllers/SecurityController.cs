@@ -1,4 +1,5 @@
 ﻿using Chat.Module.Core.Models;
+using Chat.Module.Core.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -49,6 +50,19 @@ namespace Chat.Module.Core.Controllers
                 expires_in = DateTime.Now.AddMinutes(30),
                 token_type = "bearer"
             });
+        }
+
+        [Route("create-user")]
+        [HttpPost]
+        public IActionResult Create()
+        {
+            var user = new User
+            {
+                Email = "admin@localhost.com",
+                UserName = "admin"
+            };
+            IdentityResult result = _userManager.CreateAsync(user).Result;
+            return Ok();
         }
 
 

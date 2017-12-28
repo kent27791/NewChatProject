@@ -11,6 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Data;
 
 namespace Chat.Module.Core.Data
 {
@@ -31,7 +32,7 @@ namespace Chat.Module.Core.Data
                 typeToRegisters.AddRange(module.Assembly.DefinedTypes.Select(t => t.AsType()));
             }
 
-            //RegisterEntities(modelBuilder, typeToRegisters);
+            //modelBuilder.RegisterEntities(typeToRegisters);
 
             modelBuilder.RegisterConvention();
 

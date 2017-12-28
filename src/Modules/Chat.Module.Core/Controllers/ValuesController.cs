@@ -23,5 +23,11 @@ namespace Chat.Module.Core.Controllers
         {
             return Ok(/*_roleService.FindAll().Select(s => s.Name).ToArray();*/);
         }
+
+        [Route("get-and-process")]
+        public IActionResult GetAndProceess()
+        {
+            return Ok();
+        }
     }
 }

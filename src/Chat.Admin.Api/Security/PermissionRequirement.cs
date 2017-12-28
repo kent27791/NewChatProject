@@ -16,13 +16,12 @@ namespace Chat.Admin.Api.Security
     }
     public class PermissionHandler : AuthorizationHandler<PermissionRequirement>
     {
-        private readonly IRoleService _roleService;
+        private readonly IUserService _userService;
         private readonly ILogger<PermissionHandler> _logger;
-        public PermissionHandler(ILogger<PermissionHandler> logger, IRoleService roleService)
-
+        public PermissionHandler(ILogger<PermissionHandler> logger, IUserService userService)
         {
             this._logger = logger;
-            this._roleService = roleService;
+            this._userService = userService;
         }
         protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, PermissionRequirement requirement)
         {
@@ -44,6 +43,10 @@ namespace Chat.Admin.Api.Security
                     requestUrl += actionName;
                 }
                 //check permission
+                if (_userService.ValidatePermission(context.User.Identity.Name, requestUrl.ToLower()))
+                {
+                    context.Succeed(requirement);
+                }
             }
             return Task.CompletedTask;
         }

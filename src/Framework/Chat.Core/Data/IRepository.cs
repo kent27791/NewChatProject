@@ -2,6 +2,7 @@
 
 using Chat.Core.Domain;
 using Microsoft.EntityFrameworkCore;
+using System.Data;
 
 namespace Chat.Core.Data
 {
@@ -23,6 +24,7 @@ namespace Chat.Core.Data
 
         IQueryable<TEntity> FromSql(RawSqlString sql, params object[] parameters);
 
+        IDbConnection GetDbConnection();
 
     }
 }

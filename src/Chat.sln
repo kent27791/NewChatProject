@@ -21,7 +21,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Chat.Service", "Framework\C
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Chat.Module.Core", "Modules\Chat.Module.Core\Chat.Module.Core.csproj", "{0344B2BC-0F76-4C47-8EA4-67FF2CCF380F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chat.Module.Report", "Modules\Chat.Module.Report\Chat.Module.Report.csproj", "{6F29D042-32AD-42A3-8369-040014318A7B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Chat.Module.Report", "Modules\Chat.Module.Report\Chat.Module.Report.csproj", "{6F29D042-32AD-42A3-8369-040014318A7B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chat.Module.Test", "Modules\Chat.Module.Test\Chat.Module.Test.csproj", "{72DD6681-C08D-43FD-BF40-83847A71B4DA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -61,6 +63,10 @@ Global
 		{6F29D042-32AD-42A3-8369-040014318A7B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6F29D042-32AD-42A3-8369-040014318A7B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6F29D042-32AD-42A3-8369-040014318A7B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{72DD6681-C08D-43FD-BF40-83847A71B4DA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{72DD6681-C08D-43FD-BF40-83847A71B4DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{72DD6681-C08D-43FD-BF40-83847A71B4DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{72DD6681-C08D-43FD-BF40-83847A71B4DA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -72,6 +78,7 @@ Global
 		{414A380C-E8CD-4FE5-8059-B7D80F4DCC13} = {BCD8C2F9-6000-4732-B082-5BD01C519440}
 		{0344B2BC-0F76-4C47-8EA4-67FF2CCF380F} = {D8FD51B5-37B7-4E83-BD60-3A9DC35CEDC0}
 		{6F29D042-32AD-42A3-8369-040014318A7B} = {D8FD51B5-37B7-4E83-BD60-3A9DC35CEDC0}
+		{72DD6681-C08D-43FD-BF40-83847A71B4DA} = {D8FD51B5-37B7-4E83-BD60-3A9DC35CEDC0}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {11356279-38EA-4102-B2E8-86E08B58BB38}
