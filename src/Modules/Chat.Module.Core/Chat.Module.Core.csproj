@@ -25,6 +25,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Framework\Chat.Common\Chat.Common.csproj" />
     <ProjectReference Include="..\..\Framework\Chat.Core\Chat.Core.csproj" />
     <ProjectReference Include="..\..\Framework\Chat.Service\Chat.Service.csproj" />
   </ItemGroup>

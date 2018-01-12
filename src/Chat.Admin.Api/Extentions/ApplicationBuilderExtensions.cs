@@ -84,7 +84,7 @@ namespace Chat.Admin.Api.Extentions
 
         public static IApplicationBuilder UseCustomizedCors(this IApplicationBuilder app)
         {
-            app.UseCors("CorsClient");
+            app.UseCors("cors-app");
             return app;
         }
     }

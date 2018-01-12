@@ -111,7 +111,7 @@ namespace Chat.Admin.Api.Extentions
                 {
                     options.SerializerSettings.ContractResolver = new DefaultContractResolver()
                     {
-                        NamingStrategy = new SnakeCaseNamingStrategy()
+                        //NamingStrategy = new SnakeCaseNamingStrategy()
                     };
                 });
 
@@ -212,7 +212,7 @@ namespace Chat.Admin.Api.Extentions
 
         public static IServiceCollection AddCustomizedCors(this IServiceCollection services)
         {
-            services.AddCors(options => options.AddPolicy("CorsClient", builder =>
+            services.AddCors(options => options.AddPolicy("cors-app", builder =>
             {
                 builder.AllowAnyOrigin();
                 builder.AllowAnyMethod();

@@ -39,7 +39,7 @@ namespace Chat.Admin.Api
             services.AddCustomizedAuthentication(_settings);
             services.AddCustomizedAuthorization();
             services.AddCustomizedMvc(GlobalConfiguration.Modules);
-
+            services.AddCustomizedCors();
 
             services.AddScoped<SignInManager<User>, SecuritySignInManager<User>>();
             services.AddScoped<IWorkContext, WorkContext>();
@@ -62,6 +62,7 @@ namespace Chat.Admin.Api
             app.UseCustomizedStaticFiles(env);
             app.UseCustomizedIdentity();
             app.UseCustomizedMvc();
+            app.UseCustomizedCors();
 
         }
     }

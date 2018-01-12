@@ -40,7 +40,6 @@ namespace Chat.Module.Core.Services
             var result = this._repository
                               .Query()
                               .Any(u => u.UserName == userName && u.Pages.Any(up => up.Page.Uri == uri));
-            this._repository.GetDbConnection().
             return result;
         }
     }

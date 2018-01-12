@@ -17,7 +17,7 @@ import { PageNotFoundComponent } from './shared/components/page-not-found/page-n
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    HttpClientModule,
+    HttpClientModule
   ],
   bootstrap: [AppComponent]
 })
