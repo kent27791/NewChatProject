@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -25,7 +26,8 @@ namespace Chat.Common.DataTable
         [JsonProperty("search")]
         public DataTableSearch Search { get; set; }
 
-        public string[] SearchColumns { get; set; }
+        [JsonProperty("filter")]
+        public JObject Filter { get; set; }
     }
 
     public class DataTableColumn

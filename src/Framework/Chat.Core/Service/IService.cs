@@ -1,6 +1,8 @@
-﻿using Chat.Core.Data;
+﻿using Chat.Common.DataTable;
+using Chat.Core.Data;
 using Chat.Core.Domain;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Chat.Core.Service
 {
@@ -21,6 +23,8 @@ namespace Chat.Core.Service
         void Delete(TKey key);
 
         void Delete(TEntity entity);
+
+        DataTableResponse<UEntity> DataTablePaging<UEntity>(IQueryable<TEntity> source, DataTableRequest request);
 
     }
 }

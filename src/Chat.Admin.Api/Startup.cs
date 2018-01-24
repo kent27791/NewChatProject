@@ -40,6 +40,7 @@ namespace Chat.Admin.Api
             services.AddCustomizedAuthorization();
             services.AddCustomizedMvc(GlobalConfiguration.Modules);
             services.AddCustomizedCors();
+            services.AddCustomizedAutoMapper();
 
             services.AddScoped<SignInManager<User>, SecuritySignInManager<User>>();
             services.AddScoped<IWorkContext, WorkContext>();

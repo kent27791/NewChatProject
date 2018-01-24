@@ -1,4 +1,7 @@
-﻿using Chat.Core.Data;
+﻿using AutoMapper.QueryableExtensions;
+using Chat.Common.DataTable;
+using Chat.Common.Extentions;
+using Chat.Core.Data;
 using Chat.Core.Domain;
 using Chat.Core.Service;
 using System;
@@ -48,6 +51,31 @@ namespace Chat.Service
         public void Delete(TEntity entity)
         {
             _repository.Delete(entity);
+        }
+
+        public DataTableResponse<UEntity> DataTablePaging<UEntity>(IQueryable<TEntity> data, DataTableRequest request)
+        {
+            //filter by all columns by full text search.
+            if (!string.IsNullOrEmpty(request.Search.Value))
+            {
+                //data = LinqHelper.Filter(data, request.SearchColumns, FtsInterceptor.Fts(dataTableRequest.Search.Value));
+            }
+            //count total after filter
+            var count = data.Count();
+            DataTableResponse<UEntity> result = new DataTableResponse<UEntity>(request.Draw, count, count);
+            //order by column
+            foreach (var orderProperty in request.Order)
+            {
+                var column = request.Columns.ElementAt(orderProperty.Column);
+                if (column.Orderable && !string.IsNullOrEmpty(column.Name))
+                {
+                    data = LinqHelper.DynamicOrderBy(data, column.Name, orderProperty.Dir);
+                }
+            }
+            //convert by type
+            var dataOfType = data.Skip(request.Start).Take(request.Length).ProjectTo<UEntity>();
+            result.Data = dataOfType.ToList();
+            return result;
         }
     }
 }

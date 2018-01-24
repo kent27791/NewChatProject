@@ -30,17 +30,15 @@ namespace Chat.Module.Core.Controllers
 
         [HttpPost]
         [Route("get-and-process")]
-        public IActionResult GetAndProceess([FromBody] DataTableRequest request)
+        public IActionResult GetAndProcess([FromBody] DataTableRequest request)
         {
+            FilterViewModel filter = request.Filter.ToObject<FilterViewModel>();
             List<UserViewModel> source = new List<UserViewModel>();
             source.Add(new UserViewModel { Id = 1, UserName = "Janna" });
             source.Add(new UserViewModel { Id = 2, UserName = "Javan" });
             source.Add(new UserViewModel { Id = 3, UserName = "Joe" });
             source.Add(new UserViewModel { Id = 4, UserName = "Sivir" });
             source.Add(new UserViewModel { Id = 5, UserName = "Pantheon" });
-
-            
-
             DataTableResponse<UserViewModel> response = new DataTableResponse<UserViewModel>(source.Count, 5, 5, source);
             return Ok(response);
         }

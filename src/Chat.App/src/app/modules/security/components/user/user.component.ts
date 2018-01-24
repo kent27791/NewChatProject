@@ -1,17 +1,19 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
-import { HttpClient, HttpResponse } from '@angular/common/http';
 
 import { DataTableRequest } from '../../../../shared/models/datatable-request.model';
 import { DataTableResponse } from '../../../../shared/models/datatable-reponse.model';
 import { UserViewModel } from '../../models/user.model';
+import { UserService } from '../../services/user.service';
 @Component({
   selector: 'app-user',
   templateUrl: './user.component.html',
   styleUrls: ['./user.component.css'],
+  providers: [UserService]
 })
 export class UserComponent implements OnInit, AfterViewInit {
   dtOptions: DataTables.Settings = {};
-  constructor(private http: HttpClient) { }
+  constructor(private userService: UserService) {
+  }
 
   ngOnInit() {
     this.dtOptions = {
@@ -20,13 +22,16 @@ export class UserComponent implements OnInit, AfterViewInit {
       serverSide: true,
       processing: true,
       ajax: (dataTablesParameters: any, callback) => {
-        this.http.post<DataTableResponse>('http://localhost:5456/api/values/get-and-process', dataTablesParameters, {}).subscribe(reponse => {
+        dataTablesParameters.filter = {
+          'userId': 1
+        }
+        this.userService.getAndProcess(dataTablesParameters).subscribe(response =>{
           callback({
-            recordsTotal: reponse.recordsTotal,
-            recordsFiltered: reponse.recordsFiltered,
-            data: reponse.data,
+            recordsTotal: response.recordsTotal,
+            recordsFiltered: response.recordsFiltered,
+            data: response.data,
           });
-        });
+        })
       },
       columns: [
         { data: 'Id', title: 'Id', },

@@ -30,6 +30,8 @@ using Chat.Module.Core.Extentions;
 using Chat.Module.Core.Data;
 
 using Chat.Admin.Api.Security;
+using AutoMapper;
+
 namespace Chat.Admin.Api.Extentions
 {
     public static class ServiceCollectionExtensions
@@ -197,7 +199,7 @@ namespace Chat.Admin.Api.Extentions
 
         public static IServiceCollection AddCustomizedAutoMapper(this IServiceCollection services)
         {
-            //services.AddAutoMapper();
+            services.AddAutoMapper();
             return services;
         }
 
