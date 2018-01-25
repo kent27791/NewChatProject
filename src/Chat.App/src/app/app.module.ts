@@ -2,17 +2,19 @@ import { NgModule, APP_INITIALIZER } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-import { HttpClientModule  } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS  } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { PageNotFoundComponent } from './shared/components/page-not-found/page-not-found.component';
 import { AppConfig } from './app.config';
+import { TokenInterceptor } from './shared/auths/token.interceptor';
+import { AuthService } from './shared/services/auth.service';
 
 @NgModule({
   declarations: [
     AppComponent,
-    PageNotFoundComponent
+    PageNotFoundComponent,
   ],
   imports: [
     BrowserModule,
@@ -20,9 +22,19 @@ import { AppConfig } from './app.config';
     FormsModule,
     HttpClientModule
   ],
-  providers:[
+  providers: [
+    AuthService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: TokenInterceptor,
+      multi: true
+    },
     AppConfig,
-    { provide: APP_INITIALIZER, useFactory: (config: AppConfig) => () => config.load(), deps: [AppConfig], multi: true }
+    {
+      provide: APP_INITIALIZER,
+      useFactory: (config: AppConfig) => () => config.load(),
+      deps: [AppConfig], multi: true
+    }
   ],
   bootstrap: [AppComponent]
 })

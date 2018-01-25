@@ -11,7 +11,6 @@ export class RoleComponent implements OnInit, AfterViewInit {
   constructor(private roleService : RoleService) { 
     
   }
-
   ngOnInit() {
     this.dtOptions = {
       lengthMenu:[[10, 25, 50], [10, 25, 50]],

@@ -16,28 +16,7 @@ export class UserComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
-    this.dtOptions = {
-      lengthMenu:[[2, 5, 10], [2, 5, 10]],
-      pageLength: 2,
-      serverSide: true,
-      processing: true,
-      ajax: (dataTablesParameters: any, callback) => {
-        dataTablesParameters.filter = {
-          'userId': 1
-        }
-        this.userService.getAndProcess(dataTablesParameters).subscribe(response =>{
-          callback({
-            recordsTotal: response.recordsTotal,
-            recordsFiltered: response.recordsFiltered,
-            data: response.data,
-          });
-        })
-      },
-      columns: [
-        { data: 'Id', title: 'Id', },
-        { data: 'UserName', title: 'UserName', },
-      ],
-    };
+    
   }
 
   ngAfterViewInit() {
