@@ -1,4 +1,5 @@
 {
+    "jwtKey": "ChatApp",
     "host": "localhost",
     "endPoint": "http://localhost:5456/"
 }
