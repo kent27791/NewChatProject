@@ -1,17 +1,13 @@
 import { Injectable, Injector } from '@angular/core';
-import { AppConfig } from '../../app.config';
+import { environment } from '../../../environments/environment';
 @Injectable()
 export class AuthService {
-  private _config: AppConfig;
-  constructor(config: AppConfig) {
-      this._config = config;
+  constructor() {
+    
   }
 
   public getToken(): string {
-    //return localStorage.getItem(this.config.getConfig('jwtKey'));
-    //console.log(this.config.jwtKey);
-    console.log(this._config.getConfig('jwtKey'));
-    return null;
+    return localStorage.getItem(environment.tokenName);
   }
 
   public isAuthenticated(): boolean {

@@ -9,10 +9,7 @@
       "outDir": "dist",
       "assets": [
         "assets",
-        "favicon.ico",
-        "env.json",
-        "config.development.json",
-        "config.production.json"
+        "favicon.ico"
       ],
       "index": "index.html",
       "main": "main.ts",
