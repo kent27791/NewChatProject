@@ -22,6 +22,7 @@
         "../src/assets/css/bootstrap.min.css",
         "../src/assets/font-awesome/css/font-awesome.css",
         "../src/assets/css/plugins/dataTables/datatables.min.css",
+        "../src/assets/css/plugins/iCheck/custom.css",
         "../src/assets/css/animate.css",
         "../src/assets/css/style.css"
       ],
@@ -33,7 +34,8 @@
         "../src/assets/js/plugins/dataTables/datatables.min.js",
         "../node_modules/datatables.net-colreorder/js/dataTables.colReorder.js",
         "../src/assets/js/inspinia.js",
-        "../src/assets/js/plugins/pace/pace.min.js"
+        "../src/assets/js/plugins/pace/pace.min.js",
+        "../src/assets/js/plugins/iCheck/icheck.min.js"
       ],
       "environmentSource": "environments/environment.ts",
       "environments": {

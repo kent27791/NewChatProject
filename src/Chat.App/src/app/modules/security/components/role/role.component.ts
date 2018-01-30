@@ -1,5 +1,6 @@
-import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ViewChild } from '@angular/core';
 import { RoleService } from '../../services/role.service';
+import { CreateOrUpdateModalComponent } from '../../../../shared/components/create-or-update-modal/create-or-update-modal.component';
 @Component({
   selector: 'app-role',
   templateUrl: './role.component.html',
@@ -7,6 +8,9 @@ import { RoleService } from '../../services/role.service';
   providers: [RoleService]
 })
 export class RoleComponent implements OnInit, AfterViewInit {
+  @ViewChild('createOrUpdateRole')
+  createOrUpdateModal: CreateOrUpdateModalComponent;
+  
   dtOptions: DataTables.Settings = {};
   constructor(private roleService : RoleService) { 
     
@@ -38,4 +42,11 @@ export class RoleComponent implements OnInit, AfterViewInit {
      
   }
 
+  onShow(){
+    this.createOrUpdateModal.show();
+  }
+
+  onHide(){
+    this.createOrUpdateModal.hide();
+  }
 }
