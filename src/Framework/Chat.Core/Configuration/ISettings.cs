@@ -7,5 +7,7 @@ namespace Chat.Core.Configuration
     public interface ISettings
     {
         ConnectionStrings ConnectionStrings { get; set; }
+
+        Redis Redis { get; set; }
     }
 }

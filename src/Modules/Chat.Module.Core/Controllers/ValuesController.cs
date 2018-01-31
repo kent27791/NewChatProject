@@ -1,10 +1,12 @@
 ﻿using Chat.Common.DataTable;
+using Chat.Core.Configuration;
 using Chat.Module.Core.Models;
 using Chat.Module.Core.Services;
 using Chat.Module.Core.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,15 +19,17 @@ namespace Chat.Module.Core.Controllers
     [EnableCors("cors-app")]
     public class ValuesController : Controller
     {
-        public ValuesController()
+        private readonly ISettings _settings;
+        public ValuesController(ISettings settings)
         {
-            
+            this._settings = settings;
         }
 
         [Route("get")]
         public IActionResult Get()
         {
-            return Ok(/*_roleService.FindAll().Select(s => s.Name).ToArray();*/);
+            var redis = _settings.Redis;
+            return Json(redis);
         }
 
         [HttpPost]

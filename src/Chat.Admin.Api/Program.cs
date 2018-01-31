@@ -19,6 +19,10 @@ namespace Chat.Admin.Api
 
         public static IWebHost BuildWebHost(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
+                //.ConfigureAppConfiguration((builderContext, config) =>
+                //{
+                //    config.AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
+                //})
                 .UseStartup<Startup>()
                 .Build();
     }

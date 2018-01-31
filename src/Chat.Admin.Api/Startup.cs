@@ -44,7 +44,9 @@ namespace Chat.Admin.Api
 
             services.AddScoped<SignInManager<User>, SecuritySignInManager<User>>();
             services.AddScoped<IWorkContext, WorkContext>();
+            services.AddScoped<ISettings, MySettings>(factory => _configuration.GetCustomizedSettings());
             services.AddSingleton<IAuthorizationHandler, PermissionHandler>();
+           
             return services.Build(_configuration, _hostingEnvironment);
         }
 

@@ -84,9 +84,9 @@ namespace Chat.Admin.Api.Extentions
             return services;
         }
 
-        public static ISettings GetCustomizedSettings(this IConfiguration configuration)
+        public static MySettings GetCustomizedSettings(this IConfiguration configuration)
         {
-            ISettings settings = configuration.GetSection("MySettings").Get<MySettings>();
+            MySettings settings = configuration.GetSection("MySettings").Get<MySettings>();
             return settings;
         }
 

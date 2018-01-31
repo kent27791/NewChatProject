@@ -13,7 +13,7 @@ namespace Chat.Module.Core.Extentions
 {
     public class WorkContext : IWorkContext
     {
-        private const string UserGuidCookiesName = "SimplUserGuid";
+        private const string UserGuidCookiesName = "ChatUserGuid";
         private const long GuestRoleId = 3;
 
         private User _currentUser;
