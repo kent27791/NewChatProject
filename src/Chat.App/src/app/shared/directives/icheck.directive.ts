@@ -4,7 +4,6 @@ declare var $: any;
   selector: '[appIcheck]'
 })
 export class IcheckDirective {
-
   constructor(element: ElementRef) {
     $(element.nativeElement).iCheck({
       checkboxClass: 'icheckbox_square-green',

@@ -1,4 +1,4 @@
-import { Component, OnInit, ElementRef, Input } from '@angular/core';
+import { Component, OnInit, ElementRef, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-create-or-update-modal',
@@ -6,8 +6,8 @@ import { Component, OnInit, ElementRef, Input } from '@angular/core';
   styleUrls: ['./create-or-update-modal.component.css']
 })
 export class CreateOrUpdateModalComponent implements OnInit {
-  @Input()
-  private isEdit;
+  @Output()
+  submit = new EventEmitter();
   
   private _modal;
   constructor(private element: ElementRef) { 
@@ -30,7 +30,7 @@ export class CreateOrUpdateModalComponent implements OnInit {
     this._modal.modal('hide');
   }
 
-  onCreateOrUpdate(){
-    console.log("submit create or update");
+  createOrUpdate(){
+    this.submit.emit();
   }
 }

@@ -12,6 +12,7 @@
     background: url(green.png) no-repeat;
     border: none;
     cursor: pointer;
+    position: relative;
 }
 
 .icheckbox_square-green {

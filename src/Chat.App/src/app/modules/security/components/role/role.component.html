@@ -31,7 +31,7 @@
       </div>
     </div>
   </div>
-  <app-create-or-update-modal #createOrUpdateRole>
+  <app-create-or-update-modal #createOrUpdateRole (submit)="onSubmit()">
     <form method="get" class="form-horizontal">
       <div class="form-group">
         <label class="col-sm-2 control-label">Normal</label>
@@ -66,16 +66,6 @@
               <input type="checkbox" appIcheck>
               <i></i> Option two checked </label>
           </div>
-          <div class="i-checks">
-              <label>
-                <input type="checkbox" appIcheck>
-                <i></i> Option two checked </label>
-            </div>
-            <div class="i-checks">
-                <label>
-                  <input type="checkbox" appIcheck>
-                  <i></i> Option two checked </label>
-              </div>
         </div>
       </div>
     </form>

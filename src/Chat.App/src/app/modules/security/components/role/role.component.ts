@@ -1,6 +1,7 @@
 import { Component, OnInit, AfterViewInit, ViewChild } from '@angular/core';
 import { RoleService } from '../../services/role.service';
 import { CreateOrUpdateModalComponent } from '../../../../shared/components/create-or-update-modal/create-or-update-modal.component';
+declare var $: any;
 @Component({
   selector: 'app-role',
   templateUrl: './role.component.html',
@@ -39,7 +40,7 @@ export class RoleComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(){
-     
+
   }
 
   onShow(){
@@ -48,5 +49,9 @@ export class RoleComponent implements OnInit, AfterViewInit {
 
   onHide(){
     this.createOrUpdateModal.hide();
+  }
+
+  onSubmit(){
+    console.log('submit')
   }
 }
