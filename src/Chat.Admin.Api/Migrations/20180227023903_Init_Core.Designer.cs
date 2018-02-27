@@ -8,10 +8,10 @@ using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.EntityFrameworkCore.Storage.Internal;
 using System;
 
-namespace Chat.Admin.Api.Migrations.SecurityManagement
+namespace Chat.Admin.Api.Migrations
 {
-    [DbContext(typeof(SecurityManagementContext))]
-    [Migration("20171228080115_Init_Core")]
+    [DbContext(typeof(ChatManagementContext))]
+    [Migration("20180227023903_Init_Core")]
     partial class Init_Core
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

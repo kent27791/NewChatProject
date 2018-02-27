@@ -10,9 +10,9 @@ using Chat.Service;
 using Dapper;
 namespace Chat.Module.Core.Services
 {
-    public class UserService : BaseService<SecurityManagementContext, User, long>, IUserService
+    public class UserService : BaseService<ChatManagementContext, User, long>, IUserService
     {
-        public UserService(IRepository<SecurityManagementContext, User, long> repository) : base(repository)
+        public UserService(IRepository<ChatManagementContext, User, long> repository) : base(repository)
         {
             
         }

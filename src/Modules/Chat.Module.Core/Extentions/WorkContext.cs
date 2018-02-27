@@ -19,9 +19,9 @@ namespace Chat.Module.Core.Extentions
         private User _currentUser;
         private UserManager<User> _userManager;
         private HttpContext _httpContext;
-        private IRepository<SecurityManagementContext, User, long> _userRepository;
+        private IRepository<ChatManagementContext, User, long> _userRepository;
 
-        public WorkContext(UserManager<User> userManager, IHttpContextAccessor contextAccessor, IRepository<SecurityManagementContext, User, long> userRepository)
+        public WorkContext(UserManager<User> userManager, IHttpContextAccessor contextAccessor, IRepository<ChatManagementContext, User, long> userRepository)
         {
             _userManager = userManager;
             _httpContext = contextAccessor.HttpContext;

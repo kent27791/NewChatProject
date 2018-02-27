@@ -20,14 +20,20 @@ namespace Chat.Module.Core.Controllers
     public class ValuesController : Controller
     {
         private readonly ISettings _settings;
-        public ValuesController(ISettings settings)
+        private readonly IRoleService _roleService;
+        public ValuesController(ISettings settings, IRoleService roleService)
         {
             this._settings = settings;
+            this._roleService = roleService;
         }
 
         [Route("get")]
         public IActionResult Get()
         {
+            var a = _roleService.Find(1);
+
+            var b = _roleService.Find(1);
+
             var redis = _settings.Redis;
             return Json(redis);
         }

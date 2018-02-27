@@ -61,6 +61,11 @@ namespace Chat.Data
             _dbSet.Remove(entity);
         }
 
+        public void Reload(TEntity entity)
+        {
+            _context.Entry(entity).Reload();
+        }
+
         public IQueryable<TEntity> FromSql(RawSqlString sql, params object[] paramters)
         {
             return _dbSet.FromSql(sql, paramters);

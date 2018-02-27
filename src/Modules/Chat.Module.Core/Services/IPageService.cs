@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Chat.Module.Core.Services
 {
-    public interface IPageService : IService<SecurityManagementContext, Page, long>
+    public interface IPageService : IService<ChatManagementContext, Page, long>
     {
 
     }

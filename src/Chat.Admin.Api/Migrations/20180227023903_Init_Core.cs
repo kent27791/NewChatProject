@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 using System;
 using System.Collections.Generic;
 
-namespace Chat.Admin.Api.Migrations.SecurityManagement
+namespace Chat.Admin.Api.Migrations
 {
     public partial class Init_Core : Migration
     {

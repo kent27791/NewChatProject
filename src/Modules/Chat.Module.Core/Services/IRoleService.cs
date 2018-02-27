@@ -4,7 +4,7 @@ using Chat.Module.Core.Models;
 
 namespace Chat.Module.Core.Services
 {
-    public interface IRoleService : IService<SecurityManagementContext, Role, long>
+    public interface IRoleService : IService<ChatManagementContext, Role, long>
     {
 
     }

@@ -5,9 +5,9 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace Chat.Module.Core.Extentions
 {
-    public class SecurityRoleStore : RoleStore<Role, SecurityManagementContext, long, UserRole, IdentityRoleClaim<long>>
+    public class SecurityRoleStore : RoleStore<Role, ChatManagementContext, long, UserRole, IdentityRoleClaim<long>>
     {
-        public SecurityRoleStore(SecurityManagementContext context, IdentityErrorDescriber describer) 
+        public SecurityRoleStore(ChatManagementContext context, IdentityErrorDescriber describer) 
             : base(context, describer)
         {
 

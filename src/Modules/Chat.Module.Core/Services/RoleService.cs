@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 
 namespace Chat.Module.Core.Services
 {
-    public class RoleService : BaseService<SecurityManagementContext, Role, long>, IRoleService
+    public class RoleService : BaseService<ChatManagementContext, Role, long>, IRoleService
     {
-        public RoleService(IRepository<SecurityManagementContext, Role, long> repository) : base(repository)
+        public RoleService(IRepository<ChatManagementContext, Role, long> repository) : base(repository)
         {
             
         }

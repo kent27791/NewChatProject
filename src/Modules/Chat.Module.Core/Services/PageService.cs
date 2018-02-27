@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 
 namespace Chat.Module.Core.Services
 {
-    public class PageService : BaseService<SecurityManagementContext, Page, long>, IPageService
+    public class PageService : BaseService<ChatManagementContext, Page, long>, IPageService
     {
-        public PageService(IRepository<SecurityManagementContext, Page, long> repository) : base(repository)
+        public PageService(IRepository<ChatManagementContext, Page, long> repository) : base(repository)
         {
 
         }

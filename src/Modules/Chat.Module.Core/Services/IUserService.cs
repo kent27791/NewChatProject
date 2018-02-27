@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Chat.Module.Core.Services
 {
-    public interface IUserService : IService<SecurityManagementContext, User, long>
+    public interface IUserService : IService<ChatManagementContext, User, long>
     {
         IEnumerable<UserPermission> PermissionByUser(long userId);
 

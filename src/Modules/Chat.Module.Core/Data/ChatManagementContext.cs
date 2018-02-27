@@ -15,13 +15,13 @@ using System.Data;
 
 namespace Chat.Module.Core.Data
 {
-    public class SecurityManagementContext :
+    public class ChatManagementContext :
         IdentityDbContext<User, Role, long, IdentityUserClaim<long>, UserRole, IdentityUserLogin<long>, IdentityRoleClaim<long>,
-        IdentityUserToken<long>>, IDatabaseContext<SecurityManagementContext>
+        IdentityUserToken<long>>, IDatabaseContext<ChatManagementContext>
     {
-        public SecurityManagementContext(DbContextOptions<SecurityManagementContext> options) : base(options)
+        public ChatManagementContext(DbContextOptions<ChatManagementContext> options) : base(options)
         {
-            
+
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -32,7 +32,7 @@ namespace Chat.Module.Core.Data
                 typeToRegisters.AddRange(module.Assembly.DefinedTypes.Select(t => t.AsType()));
             }
 
-            //modelBuilder.RegisterEntities(typeToRegisters);
+            modelBuilder.RegisterEntities(typeToRegisters);
 
             modelBuilder.RegisterConvention();
 

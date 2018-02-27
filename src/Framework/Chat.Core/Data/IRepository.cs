@@ -24,6 +24,8 @@ namespace Chat.Core.Data
 
         IQueryable<TEntity> FromSql(RawSqlString sql, params object[] parameters);
 
+        void Reload(TEntity entity);
+
         IDbConnection GetDbConnection();
 
     }

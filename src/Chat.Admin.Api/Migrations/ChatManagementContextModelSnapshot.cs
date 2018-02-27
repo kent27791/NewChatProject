@@ -8,10 +8,10 @@ using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.EntityFrameworkCore.Storage.Internal;
 using System;
 
-namespace Chat.Admin.Api.Migrations.SecurityManagement
+namespace Chat.Admin.Api.Migrations
 {
-    [DbContext(typeof(SecurityManagementContext))]
-    partial class SecurityManagementContextModelSnapshot : ModelSnapshot
+    [DbContext(typeof(ChatManagementContext))]
+    partial class ChatManagementContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
         {

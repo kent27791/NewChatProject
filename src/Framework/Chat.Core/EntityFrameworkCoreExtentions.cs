@@ -41,10 +41,7 @@ namespace Chat.Core
                 if (builderType != null && builderType != typeof(ICustomModelBuilder))
                 {
                     var builder = (ICustomModelBuilder)Activator.CreateInstance(builderType);
-                    if (builder.ContextName == context.GetType().Name)
-                    {
-                        builder.Build(modelBuilder);
-                    }
+                    builder.Build(modelBuilder);
                 }
             }
         }

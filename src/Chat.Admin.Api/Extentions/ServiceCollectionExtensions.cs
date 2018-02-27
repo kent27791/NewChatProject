@@ -24,7 +24,6 @@ using Chat.Core.Configuration;
 using Chat.Core.Data;
 using Chat.Data;
 
-using Chat.Module.Report.Data;
 using Chat.Module.Core.Models;
 using Chat.Module.Core.Extentions;
 using Chat.Module.Core.Data;
@@ -147,11 +146,7 @@ namespace Chat.Admin.Api.Extentions
 
         public static IServiceCollection AddCustomizedDataStore(this IServiceCollection services, ISettings settings)
         {
-            services.AddDbContext<SecurityManagementContext>(dbOptions =>
-                dbOptions.UseSqlServer(settings.ConnectionStrings.SecurityManagement, sqlOptions =>
-                    sqlOptions.MigrationsAssembly("Chat.Admin.Api")));
-
-            services.AddDbContext<ChatManagementContext>(dbOptions =>
+            services.AddDbContextPool<ChatManagementContext>(dbOptions =>
                 dbOptions.UseSqlServer(settings.ConnectionStrings.ChatManagement, sqlOptions =>
                     sqlOptions.MigrationsAssembly("Chat.Admin.Api")));
 

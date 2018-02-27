@@ -9,10 +9,10 @@ using System.Threading.Tasks;
 
 namespace Chat.Module.Core.Extentions
 {
-    public class SecurityUserStore : UserStore<User, Role, SecurityManagementContext, long, IdentityUserClaim<long>, UserRole,
+    public class SecurityUserStore : UserStore<User, Role, ChatManagementContext, long, IdentityUserClaim<long>, UserRole,
         IdentityUserLogin<long>, IdentityUserToken<long>, IdentityRoleClaim<long>>
     {
-        public SecurityUserStore(SecurityManagementContext context, IdentityErrorDescriber describer) : base(context, describer)
+        public SecurityUserStore(ChatManagementContext context, IdentityErrorDescriber describer) : base(context, describer)
         {
 
         }
