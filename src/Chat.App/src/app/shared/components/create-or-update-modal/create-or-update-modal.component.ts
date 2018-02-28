@@ -7,19 +7,22 @@ import { Component, OnInit, ElementRef, Input, Output, EventEmitter } from '@ang
 })
 export class CreateOrUpdateModalComponent implements OnInit {
   @Output()
-  submit = new EventEmitter();
-  
+  submit: EventEmitter<boolean> = new EventEmitter();
+
+  @Input()
+  isEdit: boolean;
+
   private _modal;
-  constructor(private element: ElementRef) { 
+  constructor(private element: ElementRef) {
+
   }
 
   ngOnInit() {
-    
+    console.log(this.isEdit);
   }
 
   ngAfterViewInit() {
     this._modal = $(this.element.nativeElement).find('.modal');
-    
   }
 
   show(){
@@ -31,6 +34,6 @@ export class CreateOrUpdateModalComponent implements OnInit {
   }
 
   createOrUpdate(){
-    this.submit.emit();
+    this.submit.emit(this.isEdit);
   }
 }

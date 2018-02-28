@@ -5,80 +5,80 @@ using Chat.Module.Core.Services;
 using Chat.Module.Core.ViewModels;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
+
 namespace Chat.Module.Core.Controllers
 {
-    [Route("api/roles")]
+    [Route("api/page")]
     [EnableCors("cors-app")]
-    public class RoleController : Controller
+    public class PageController : Controller
     {
-        private readonly ILogger<RoleController> _logger;
-        private readonly IRoleService _roleService;
-        private readonly RoleManager<Role> _roleManager;
+        private readonly ILogger<PageController> _logger;
+        private readonly IPageService _pageService;
         private readonly IMapper _mapper;
-        public RoleController(
-            ILogger<RoleController> logger, 
-            IMapper mapper, 
-            RoleManager<Role> roleManager, 
-            IRoleService roleService)
+        public PageController(
+            ILogger<PageController> logger,
+            IMapper mapper,
+            IPageService pageService)
         {
             this._logger = logger;
             this._mapper = mapper;
-            this._roleService = roleService;
-            this._roleManager = roleManager;
+            this._pageService = pageService;
         }
 
         [Route("data-table-paging")]
         [HttpPost]
         public IActionResult DataTablePaging([FromBody] DataTableRequest request)
         {
-            return Ok(_roleService.DataTablePaging<RoleDataTableViewModel>(_roleService.Repository.Query(), request));
+            return Ok(_pageService.DataTablePaging<PageDataTableViewModel>(_pageService.Repository.Query(), request));
         }
 
-        [Route("find/{id}", Name = "find-role")]
+        [Route("find/{id}")]
         [HttpGet]
         public IActionResult Find(long id)
         {
-            return Ok(_roleService.Find(id));
+            return Ok(_pageService.Find(id));
         }
 
         [Route("create")]
         [HttpPost]
-        public IActionResult Create([FromBody] RoleViewModel viewModel)
+        public IActionResult Create(PageViewModel viewModel)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest();
             }
-            var original = _mapper.Map<Role>(viewModel);
-            var result = _roleManager.CreateAsync(original).Result;
-            return CreatedAtRoute("find-role", new { id = original.Id }, original);
+            var original = _mapper.Map<Page>(viewModel);
+            _pageService.Add(original);
+            return CreatedAtRoute("find", original.Id);
         }
 
         [Route("edit/{id}")]
         [HttpPut]
-        public IActionResult Edit(long id, [FromBody] RoleViewModel viewModel)
+        public IActionResult Edit(long id, PageViewModel viewModel)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest();
             }
-            if(id != viewModel.Id)
+            if (id != viewModel.Id)
             {
                 return BadRequest();
             }
             try
             {
-                var original = _roleService.Find(id);
-                if(original == null)
+                var original = _pageService.Find(id);
+                if (original == null)
                 {
                     return NotFound();
                 }
                 original = _mapper.Map(viewModel, original);
-                var result = _roleManager.UpdateAsync(original).Result;
+                _pageService.Update(original);
                 return Ok(original);
             }
             catch
@@ -91,12 +91,12 @@ namespace Chat.Module.Core.Controllers
         [HttpDelete]
         public IActionResult Delete(long id)
         {
-            var original = _roleService.Find(id);
-            if(original == null)
+            var original = _pageService.Find(id);
+            if (original == null)
             {
                 return NotFound();
             }
-            _roleService.Delete(original);
+            _pageService.Delete(original);
             return Ok(original);
         }
     }

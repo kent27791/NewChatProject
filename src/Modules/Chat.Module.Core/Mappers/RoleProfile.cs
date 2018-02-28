@@ -8,6 +8,7 @@ namespace Chat.Module.Core.Mappers
         public RoleProfile()
         {
             CreateMap<Role, RoleDataTableViewModel>();
+            CreateMap<Role, RoleViewModel>().ReverseMap();
         }
     }
 }
