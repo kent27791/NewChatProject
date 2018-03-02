@@ -24,6 +24,8 @@
         "../src/assets/css/plugins/dataTables/datatables.min.css",
         "../src/assets/css/plugins/iCheck/custom.css",
         "../src/assets/css/animate.css",
+        "../node_modules/ngx-toastr/toastr.css",
+        "../src/assets/css/plugins/jsTree/style.min.css",
         "../src/assets/css/style.css"
       ],
       "scripts": [
@@ -35,7 +37,8 @@
         "../node_modules/datatables.net-colreorder/js/dataTables.colReorder.js",
         "../src/assets/js/inspinia.js",
         "../src/assets/js/plugins/pace/pace.min.js",
-        "../src/assets/js/plugins/iCheck/icheck.min.js"
+        "../src/assets/js/plugins/iCheck/icheck.min.js",
+        "../src/assets/js/plugins/jsTree/jstree.min.js"
       ],
       "environmentSource": "environments/environment.ts",
       "environments": {

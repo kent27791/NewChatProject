@@ -27,6 +27,7 @@
     "datatables.net-colreorder": "^1.4.1",
     "datatables.net-colreorder-dt": "^1.4.1",
     "datatables.net-dt": "^1.10.16",
+    "ngx-toastr": "^8.2.1",
     "rxjs": "^5.5.2",
     "zone.js": "^0.8.14"
   },

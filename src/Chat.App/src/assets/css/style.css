@@ -8227,6 +8227,12 @@ body.md-skin {
     margin: 0;
   }
 }
-.dataTables_empty {
+table.hide-no-data .dataTables_empty{
   display: none;
+}
+.no-data-available{
+  text-align: center;
+}
+.show-grant{
+  margin-left: 5px;
 }

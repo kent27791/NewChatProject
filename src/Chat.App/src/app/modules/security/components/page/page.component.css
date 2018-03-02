@@ -1,0 +1,12 @@
+.onoffswitch {
+    width: 70px;
+}
+.onoffswitch-switch{
+    right: 53px;
+}
+.onoffswitch-inner:before {
+    content: "Tạo mới"
+}
+.onoffswitch-inner:after {
+    content: "Cập nhật"
+}

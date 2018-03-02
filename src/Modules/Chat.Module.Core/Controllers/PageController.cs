@@ -1,11 +1,13 @@
 ﻿using AutoMapper;
 using Chat.Common.DataTable;
+using Chat.Module.Core.Enums;
 using Chat.Module.Core.Models;
 using Chat.Module.Core.Services;
 using Chat.Module.Core.ViewModels;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -20,15 +22,18 @@ namespace Chat.Module.Core.Controllers
     {
         private readonly ILogger<PageController> _logger;
         private readonly IPageService _pageService;
+        private readonly IUserService _userService;
         private readonly IMapper _mapper;
         public PageController(
             ILogger<PageController> logger,
             IMapper mapper,
-            IPageService pageService)
+            IPageService pageService,
+            IUserService userService)
         {
             this._logger = logger;
             this._mapper = mapper;
             this._pageService = pageService;
+            this._userService = userService;
         }
 
         [Route("data-table-paging")]
@@ -38,7 +43,7 @@ namespace Chat.Module.Core.Controllers
             return Ok(_pageService.DataTablePaging<PageDataTableViewModel>(_pageService.Repository.Query(), request));
         }
 
-        [Route("find/{id}")]
+        [Route("find/{id}", Name = "find-page")]
         [HttpGet]
         public IActionResult Find(long id)
         {
@@ -47,7 +52,7 @@ namespace Chat.Module.Core.Controllers
 
         [Route("create")]
         [HttpPost]
-        public IActionResult Create(PageViewModel viewModel)
+        public IActionResult Create([FromBody] PageViewModel viewModel)
         {
             if (!ModelState.IsValid)
             {
@@ -55,12 +60,13 @@ namespace Chat.Module.Core.Controllers
             }
             var original = _mapper.Map<Page>(viewModel);
             _pageService.Add(original);
-            return CreatedAtRoute("find", original.Id);
+            _pageService.Repository.Commit();
+            return CreatedAtRoute("find-page", new { id = original.Id }, original);
         }
 
         [Route("edit/{id}")]
         [HttpPut]
-        public IActionResult Edit(long id, PageViewModel viewModel)
+        public IActionResult Edit(long id, [FromBody] PageViewModel viewModel)
         {
             if (!ModelState.IsValid)
             {
@@ -79,6 +85,7 @@ namespace Chat.Module.Core.Controllers
                 }
                 original = _mapper.Map(viewModel, original);
                 _pageService.Update(original);
+                _pageService.Repository.Commit();
                 return Ok(original);
             }
             catch
@@ -97,7 +104,62 @@ namespace Chat.Module.Core.Controllers
                 return NotFound();
             }
             _pageService.Delete(original);
+            _pageService.Repository.Commit();
             return Ok(original);
+        }
+
+        [Route("tree/{type}")]
+        [HttpGet]
+        public IActionResult Tree(int type)
+        {
+            return Ok(_pageService.Repository.Query().Where(p => p.Type == type || type == (int)PageType.All).ToList());
+        }
+
+        [Route("user-grant-data-table-paging/{id}")]
+        [HttpPost]
+        public IActionResult UserGrantDataTablePaging([FromRoute] long id, [FromBody] DataTableRequest request)
+        {
+            var result = _userService.DataTablePaging<UserDataTableGrantViewModel>(_userService.Repository.Query().Include(u => u.Pages), request);
+            result.Data.ToList().ForEach(u => u.Checked = u.PageIds.Any(p => p == id));
+            return Ok(result);
+        }
+
+        [Route("grant-user/{userId}")]
+        [HttpGet]
+        public IActionResult GrantUser(long pageId, [FromRoute] long userId)
+        {
+            var originalPage = _pageService.Repository.Query().Include(p => p.Users).SingleOrDefault(p => p.Id == pageId);
+            if (originalPage == null)
+            {
+                return NotFound();
+            }
+            originalPage.Users.Add(new UserPermission
+            {
+                PageId = originalPage.Id,
+                UserId = userId
+            });
+            _pageService.Update(originalPage);
+            _pageService.Repository.Commit();
+            return Ok();
+        }
+
+        [Route("deny-user/{userId}")]
+        [HttpGet]
+        public IActionResult DenyUser(long pageId, [FromRoute] long userId)
+        {
+            var originalPage = _pageService.Repository.Query().Include(p => p.Users).SingleOrDefault(p => p.Id == pageId);
+            if (originalPage == null)
+            {
+                return NotFound();
+            }
+            originalPage.Users.Remove(new UserPermission
+            {
+                PageId = originalPage.Id,
+                UserId = userId
+            });
+            _pageService.Update(originalPage);
+            _pageService.Repository.Commit();
+            return Ok();
         }
     }
 }

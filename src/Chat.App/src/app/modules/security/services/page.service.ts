@@ -1,10 +1,28 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { BaseService } from '../../../shared/services/base.service';
-
+import { Observable } from 'rxjs';
+import { DataTableRequest } from '../../../shared/models/datatable-request.model';
+import { DataTableResponse } from '../../../shared/models/datatable-reponse.model';
 @Injectable()
-export class PageService extends BaseService{
-  constructor(http: HttpClient){
+export class PageService extends BaseService {
+  constructor(http: HttpClient) {
     super(http, 'api/page/');
+  }
+
+  tree(type: number): any {
+    return this.http.get(this._endPoint + this.uri + 'tree/' + type);
+  }
+
+  userGrantDataTablePaging(id: number, request: DataTableRequest): Observable<DataTableResponse> {
+    return this.http.post<DataTableResponse>(this._endPoint + this.uri + 'user-grant-data-table-paging/' + id, request, {});
+  }
+
+  grantUser(userId: number, pageId: number) {
+    return this.http.get(this._endPoint + this.uri + 'grant-user/' + userId, { params: { pageId: pageId.toString() } });
+  }
+
+  denyUser(userId: number, pageId: number) {
+    return this.http.get(this._endPoint + this.uri + 'deny-user/' + userId, { params: { pageId: pageId.toString() } });
   }
 }

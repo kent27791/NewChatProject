@@ -28,5 +28,6 @@ namespace Chat.Core.Data
 
         IDbConnection GetDbConnection();
 
+        void Commit();
     }
 }

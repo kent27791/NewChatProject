@@ -136,7 +136,12 @@ namespace Chat.Admin.Api.Extentions
         public static IServiceCollection AddCustomizedIdentity(this IServiceCollection services)
         {
             services
-                .AddIdentity<User, Role>()
+                .AddIdentity<User, Role>(options => 
+                {
+                    options.Password.RequireLowercase = false;
+                    options.Password.RequireUppercase = false;
+                    options.Password.RequireNonAlphanumeric = false;
+                })
                 .AddRoleStore<SecurityRoleStore>()
                 .AddUserStore<SecurityUserStore>()
                 .AddDefaultTokenProviders();

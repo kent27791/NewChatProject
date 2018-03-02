@@ -75,5 +75,10 @@ namespace Chat.Data
         {
             return _dbConnection;
         }
+
+        public void Commit()
+        {
+            _context.Commit();
+        }
     }
 }
