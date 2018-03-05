@@ -1,7 +1,7 @@
 {
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
   "project": {
-    "name": "decima"
+    "name": "chat-app"
   },
   "apps": [
     {
@@ -19,16 +19,27 @@
       "testTsconfig": "tsconfig.spec.json",
       "prefix": "app",
       "styles": [
-        "assets/fonts/linea/styles.css",
-        "assets/fonts/header/_flaticon.scss",
-        "../node_modules/dragula/dist/dragula.css",
-        "../node_modules/quill/dist/quill.snow.css",
-        "../node_modules/angular-calendar/scss/angular-calendar.scss",
-        "../node_modules/@swimlane/ngx-datatable/release/index.css",
-        "assets/fonts/data-table/icons.css",
-        "assets/styles/app.scss"
+        "../src/assets/css/bootstrap.min.css",
+        "../src/assets/font-awesome/css/font-awesome.css",
+        "../src/assets/css/plugins/dataTables/datatables.min.css",
+        "../src/assets/css/plugins/iCheck/custom.css",
+        "../src/assets/css/animate.css",
+        "../node_modules/ngx-toastr/toastr.css",
+        "../src/assets/css/plugins/jsTree/style.min.css",
+        "../src/assets/css/style.css"
       ],
-      "scripts": [],
+      "scripts": [
+        "../src/assets/js/jquery-2.1.1.js",
+        "../src/assets/js/bootstrap.min.js",
+        "../src/assets/js/plugins/metisMenu/jquery.metisMenu.js",
+        "../src/assets/js/plugins/slimscroll/jquery.slimscroll.min.js",
+        "../src/assets/js/plugins/dataTables/datatables.min.js",
+        "../node_modules/datatables.net-colreorder/js/dataTables.colReorder.js",
+        "../src/assets/js/inspinia.js",
+        "../src/assets/js/plugins/pace/pace.min.js",
+        "../src/assets/js/plugins/iCheck/icheck.min.js",
+        "../src/assets/js/plugins/jsTree/jstree.min.js"
+      ],
       "environmentSource": "environments/environment.ts",
       "environments": {
         "dev": "environments/environment.ts",
@@ -44,15 +55,15 @@
   "lint": [
     {
       "project": "src/tsconfig.app.json",
-      "exclude": "**/node_modules/**/*"
+      "exclude": "**/node_modules/**"
     },
     {
       "project": "src/tsconfig.spec.json",
-      "exclude": "**/node_modules/**/*"
+      "exclude": "**/node_modules/**"
     },
     {
       "project": "e2e/tsconfig.e2e.json",
-      "exclude": "**/node_modules/**/*"
+      "exclude": "**/node_modules/**"
     }
   ],
   "test": {
@@ -61,7 +72,7 @@
     }
   },
   "defaults": {
-    "styleExt": "scss",
+    "styleExt": "css",
     "component": {}
   }
 }

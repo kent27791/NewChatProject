@@ -1,13 +1,14 @@
-import { DecimaPage } from './app.po';
+import { AppPage } from './app.po';
 
-describe('decima App', () => {
-  let page: DecimaPage;
+describe('chat-app App', () => {
+  let page: AppPage;
 
   beforeEach(() => {
-    page = new DecimaPage();
+    page = new AppPage();
   });
 
-  it('should expect true to be true', () => {
-    expect(true).toBe(true);
+  it('should display welcome message', () => {
+    page.navigateTo();
+    expect(page.getParagraphText()).toEqual('Welcome to app!');
   });
 });

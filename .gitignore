@@ -302,3 +302,4 @@ __pycache__/
 **/obj/**
 **/node_modules/**
 **/.vs/**
+.svn/**

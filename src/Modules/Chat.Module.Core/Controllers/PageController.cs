@@ -4,6 +4,7 @@ using Chat.Module.Core.Enums;
 using Chat.Module.Core.Models;
 using Chat.Module.Core.Services;
 using Chat.Module.Core.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -126,6 +127,7 @@ namespace Chat.Module.Core.Controllers
 
         [Route("grant-user/{userId}")]
         [HttpGet]
+        [Authorize(Policy = "Permission")]
         public IActionResult GrantUser(long pageId, [FromRoute] long userId)
         {
             var originalPage = _pageService.Repository.Query().Include(p => p.Users).SingleOrDefault(p => p.Id == pageId);
