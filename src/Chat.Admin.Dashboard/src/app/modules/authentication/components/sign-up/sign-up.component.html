@@ -1,0 +1,39 @@
+<div class="middle-box text-center loginscreen animated fadeInDown">
+    <div>
+        <div>
+            <h1 class="logo-name">BTS</h1>
+        </div>
+        <h3>Register to BTS</h3>
+        <p>Tạo tài khoản</p>
+        <form #form="ngForm" class="m-t" role="form" action="login.html">
+            <div class="form-group">
+                <input type="text" [(ngModel)]="userSignUp.UserName" name="UserName" class="form-control" placeholder="Tên đăng nhập">
+            </div>
+            <div class="form-group">
+                <input type="email" [(ngModel)]="userSignUp.Email" name="Email" class="form-control" placeholder="Địa chỉ email">
+            </div>
+            <div class="form-group">
+                <input type="password" [(ngModel)]="userSignUp.Password" name="Password" class="form-control" placeholder="Mật khẩu">
+            </div>
+            <div class="form-group">
+                    <input type="re-password" [(ngModel)]="userSignUp.RePassword" name="RePassword" class="form-control" placeholder="Xác nhận mật khẩu">
+                </div>
+            <div class="form-group">
+                <div class="checkbox i-checks">
+                    <label>
+                        <input appIcheck [(ngModel)]="userSignUp.Condition" name="Condition" type="checkbox">
+                        <i></i>Đồng ý với điều khoản công ty</label>
+                </div>
+            </div>
+            <button type="button" (click)="signUp()" class="btn btn-primary block full-width m-b">Đăng ký</button>
+
+            <p class="text-muted text-center">
+                <small>Bạn đã có tài khoản?</small>
+            </p>
+            <a class="btn btn-sm btn-white btn-block" routerLink="/authentication/sign-in">Đăng nhập</a>
+        </form>
+        <p class="m-t">
+            <small>&copy; 2014</small>
+        </p>
+    </div>
+</div>

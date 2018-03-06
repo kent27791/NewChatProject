@@ -2,7 +2,6 @@ import { Component, OnInit, AfterViewInit, ViewChild } from '@angular/core';
 
 import { DataTableRequest } from '../../../../shared/models/datatable-request.model';
 import { DataTableResponse } from '../../../../shared/models/datatable-reponse.model';
-import { UserViewModel } from '../../models/user.model';
 import { UserService } from '../../services/user.service';
 import { DataTableDirective } from 'angular-datatables';
 import { Subject } from 'rxjs';

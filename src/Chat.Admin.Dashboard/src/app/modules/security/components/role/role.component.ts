@@ -1,7 +1,7 @@
 import { Component, OnInit, AfterViewInit, ViewChild } from '@angular/core';
 import { RoleService } from '../../services/role.service';
-import { CreateOrUpdateModalComponent } from '../../../../shared/components/create-or-update-modal/create-or-update-modal.component';
-import { DeleteModalComponent } from '../../../../shared/components/delete-modal/delete-modal.component';
+import { CreateOrUpdateModalComponent } from '../../../../shared/components/modals/create-or-update-modal/create-or-update-modal.component';
+import { DeleteModalComponent } from '../../../../shared/components/modals/delete-modal/delete-modal.component';
 import { DataTableDirective } from 'angular-datatables';
 import { Subject } from 'rxjs/Subject';
 import { ToastrService } from 'ngx-toastr';

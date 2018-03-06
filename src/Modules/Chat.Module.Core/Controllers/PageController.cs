@@ -46,6 +46,7 @@ namespace Chat.Module.Core.Controllers
 
         [Route("find/{id}", Name = "find-page")]
         [HttpGet]
+        [Authorize(Policy = "Permission")]
         public IActionResult Find(long id)
         {
             return Ok(_pageService.Find(id));

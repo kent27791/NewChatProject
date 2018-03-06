@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, ViewChild } from '@angular/core';
+import { Component, OnInit, AfterViewInit, OnDestroy, ViewChild, NgZone, ElementRef } from '@angular/core';
 import { DataTableDirective } from 'angular-datatables';
 import { Subject } from 'rxjs/Subject';
 import { ToastrService } from 'ngx-toastr';
@@ -10,9 +10,10 @@ declare var $: any;
   styleUrls: ['./page.component.css'],
   providers: [PageService]
 })
-export class PageComponent implements OnInit, AfterViewInit {
+export class PageComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild(DataTableDirective)
   dtElement: DataTableDirective;
+
   dtTrigger: Subject<any> = new Subject();
   dtOptions: DataTables.Settings = {};
   page: any = {};
@@ -20,7 +21,7 @@ export class PageComponent implements OnInit, AfterViewInit {
   tree: Array<any>;
   pageTypes: Array<any>;
   isEdit: boolean;
-  constructor(private pageService: PageService, private toastrService: ToastrService) {
+  constructor(private zone: NgZone, private pageService: PageService, private toastrService: ToastrService) {
     this.pageTypes = [
       {
         Id: 1,
@@ -35,120 +36,125 @@ export class PageComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
     let self = this;
-    this.dtOptions = {
-      lengthMenu: [[10, 25, 50], [10, 25, 50]],
-      pageLength: 10,
-      serverSide: true,
-      processing: true,
-      deferLoading: 0,
-      ajax: (request: any, callback) => {
-        request.filter = {};
-        this.pageService.userGrantDataTablePaging(this.page.Id, request).subscribe(
-          response => {
-            callback({
-              recordsTotal: response.recordsTotal,
-              recordsFiltered: response.recordsFiltered,
-              data: response.data,
+    this.zone.run(() =>{
+      self.dtOptions = {
+        lengthMenu: [[10, 25, 50], [10, 25, 50]],
+        pageLength: 10,
+        serverSide: true,
+        processing: true,
+        deferLoading: 0,
+        ajax: (request: any, callback) => {
+          request.filter = {};
+          this.pageService.userGrantDataTablePaging(this.page.Id, request).subscribe(
+            response => {
+              callback({
+                recordsTotal: response.recordsTotal,
+                recordsFiltered: response.recordsFiltered,
+                data: response.data,
+              });
+            })
+        },
+        createdRow: function (row, data, index) {
+          self.zone.run(() =>{
+            $(row).find('[data-toggle="tooltip"]').tooltip();
+            $(row).find('.checkbox-grant').iCheck({
+              checkboxClass: 'icheckbox_square-green',
+              radioClass: 'iradio_square-green',
+            }).on('ifChanged', function (event) {
+              let checked = $(this).prop('checked');
+              let userId = $(this).attr('data-user-id');
+              let pageId = self.page.Id;
+              if (checked) {
+                self.pageService.grantUser(userId, pageId).subscribe(
+                  response => {
+                    self.toastrService.success('Grant page thành công')
+                  }
+                )
+              } else {
+                self.pageService.denyUser(userId, pageId).subscribe(
+                  response => {
+                    self.toastrService.success('Deny page thành công')
+                  }
+                )
+              }
             });
-            $('#grant-modal').modal('show');
           })
-      },
-      createdRow: function (row, data, index) {
-        $(row).find('[data-toggle="tooltip"]').tooltip();
-        $(row).find('.checkbox-grant').iCheck({
-          checkboxClass: 'icheckbox_square-green',
-          radioClass: 'iradio_square-green',
-        }).on('ifChanged', function (event) {
-          let checked = $(this).prop('checked');
-          let userId = $(this).attr('data-user-id');
-          let pageId = self.page.Id;
-          if (checked) {
-            self.pageService.grantUser(userId, pageId).subscribe(
-              response => {
-                self.toastrService.success('Grant page thành công')
+        },
+        order: [1, 'desc'],
+        columns: [
+          {
+            data: null, name: null, orderable: false,
+            render: function (data, type, row, meta) {
+              if (data.Checked) {
+                return `<input class="checkbox-grant" checked="checked" type="checkbox" data-user-id="${data.Id}"/>`
               }
-            )
-          } else {
-            self.pageService.denyUser(userId, pageId).subscribe(
-              response => {
-                self.toastrService.success('Deny page thành công')
-              }
-            )
-          }
-
-        });
-      },
-      order: [1, 'desc'],
-      columns: [
-        {
-          data: null, name: null, orderable: false,
-          render: function (data, type, row, meta) {
-            if (data.Checked) {
-              return `<input class="checkbox-grant" checked="checked" type="checkbox" data-user-id="${data.Id}"/>`
+              return `<input class="checkbox-grant" type="checkbox" data-user-id="${data.Id}"/>`
             }
-            return `<input class="checkbox-grant" type="checkbox" data-user-id="${data.Id}"/>`
+          },
+          { data: 'Id', name: 'Id', title: 'Id', },
+          { data: 'UserName', name: 'UserName', title: 'UserName', },
+        ],
+      };
+      $('#tree-page').jstree({
+        'core': {
+          'data': null
+        },
+        'types': {
+          'default': {
+            'icon': 'fa fa-folder',
+          },
+          'file': {
+            'icon': 'fa fa-file'
           }
         },
-        { data: 'Id', name: 'Id', title: 'Id', },
-        { data: 'UserName', name: 'UserName', title: 'UserName', },
-      ],
-    };
-    
-    $('#tree-page').jstree({
-      'core': {
-        'data': null
-      },
-      'types': {
-        'default': {
-          'icon': 'fa fa-folder',
-        },
-        'file': {
-          'icon': 'fa fa-file'
+        'plugins': ['types']
+      }).on('select_node.jstree ', function (event, data) {
+        if (self.isEdit) {
+          self.page = data.node.original;
+          self.prePage = data.node.original;
+        } else {
+          self.prePage = data.node.original;
+          self.page = {
+            ParentId: self.prePage.Id,
+            Type: 1
+          };
         }
-      },
-      'plugins': ['types']
-    }).on('select_node.jstree ', function (event, data) {
-      if (self.isEdit) {
-        self.page = data.node.original;
-        self.prePage = data.node.original;
-      } else {
-        self.prePage = data.node.original;
-        self.page = {
-          ParentId: self.prePage.Id,
-          Type: 1
-        };
-      }
-
-    });
-    this.loadTree();
-
-    $(document).on('change', '#change-form', function () {
-      let checked = $(this).prop("checked");
-      if (checked) {
-        self.isEdit = false;
-        self.page = {
-          ParentId: self.prePage.Id,
-          Type: 1
-        };
-
-      } else {
-        self.isEdit = true;
-        self.page = self.prePage;
-      }
-    })
-
-    $(document).on('click', '.show-grant', function () {
-      let id = $(this).attr('data-id');
-      self.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
-        dtInstance.draw();
+  
       });
+  
+      self.loadTree();
+  
+      $(document).on('change', '#change-form', function () {
+        let checked = $(this).prop("checked");
+        if (checked) {
+          self.isEdit = false;
+          self.page = {
+            ParentId: self.prePage.Id,
+            Type: 1
+          };
+  
+        } else {
+          self.isEdit = true;
+          self.page = self.prePage;
+        }
+      })
+  
+      $(document).on('click', '.show-grant', function () {
+        let id = $(this).attr('data-id');
+        $('#grant-modal').modal('show');
+        self.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
+          dtInstance.draw();
+          $('#grant-modal').modal('show');
+        });
+      })
     })
+    
+
   }
 
   ngAfterViewInit() {
     this.dtTrigger.next();
     this.isEdit = !($('#change-form').prop('checked'));
-    console.log(this.isEdit)
   }
 
   reRender(): void {
@@ -201,5 +207,9 @@ export class PageComponent implements OnInit, AfterViewInit {
         }
       )
     }
+  }
+
+  ngOnDestroy() {
+    $('#grant-modal').modal('hide');
   }
 }

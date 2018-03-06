@@ -10,15 +10,15 @@ const routes: Routes = [
     children: [
       {
         path: 'role',
-        component: RoleComponent
+        component: RoleComponent,
       },
       {
         path: 'user',
-        component: UserComponent
+        component: UserComponent,
       },
       {
         path: 'page',
-        component: PageComponent
+        component: PageComponent,
       }
     ]
   }

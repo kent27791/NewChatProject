@@ -1,23 +1,29 @@
 import { Injectable, Injector } from '@angular/core';
-import { environment } from '../../../environments/environment';
+import { environment } from '../../../../environments/environment';
+import { HttpClient } from '@angular/common/http';
 @Injectable()
 export class AuthService {
-  constructor() {
-    
+  base = '/api/security/';
+  constructor(private http: HttpClient) {
+
   }
 
-  public getToken(): string {
+  getToken(): string {
     return localStorage.getItem(environment.tokenName);
   }
 
-  public isAuthenticated(): boolean {
+  isAuthenticated(): boolean {
     // get the token
     const token = this.getToken();
     // return a boolean reflecting 
     // whether or not the token is expired
     return false;
-  } 
+  }
 
-  
+  signIn() {
+
+  }
+
+
 
 }

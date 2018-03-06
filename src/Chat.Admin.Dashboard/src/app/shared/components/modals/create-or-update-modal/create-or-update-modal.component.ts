@@ -18,7 +18,7 @@ export class CreateOrUpdateModalComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
-    console.log(this.isEdit);
+    
   }
 
   ngAfterViewInit() {
