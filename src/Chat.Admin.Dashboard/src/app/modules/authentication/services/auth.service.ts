@@ -3,7 +3,7 @@ import { environment } from '../../../../environments/environment';
 import { HttpClient } from '@angular/common/http';
 @Injectable()
 export class AuthService {
-  base = '/api/security/';
+  uri = '/api/security/';
   constructor(private http: HttpClient) {
 
   }

@@ -8,5 +8,6 @@ namespace Chat.Core.Configuration
     {
         public ConnectionStrings ConnectionStrings { get; set; }
         public Redis Redis { get; set; }
+        public JwtBearer JwtBearer { get; set; }
     }
 }

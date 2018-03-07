@@ -176,9 +176,9 @@ namespace Chat.Admin.Api.Extentions
                             ValidateAudience = true,
                             ValidateLifetime = true,
                             ValidateIssuerSigningKey = true,
-                            ValidIssuer = "yourdomain.com",
-                            ValidAudience = "yourdomain.com",
-                            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("SecurityKeySecurityKeySecurityKey"))
+                            ValidIssuer = settings.JwtBearer.Issuer,
+                            ValidAudience = settings.JwtBearer.Audience,
+                            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(settings.JwtBearer.SecretKey))
                         };
                     });
 
