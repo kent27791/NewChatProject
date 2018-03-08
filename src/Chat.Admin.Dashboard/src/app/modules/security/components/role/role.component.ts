@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, ViewChild } from '@angular/core';
+import { Component, OnInit, AfterViewInit, OnDestroy, ViewChild } from '@angular/core';
 import { RoleService } from '../../services/role.service';
 import { CreateOrUpdateModalComponent } from '../../../../shared/components/modals/create-or-update-modal/create-or-update-modal.component';
 import { DeleteModalComponent } from '../../../../shared/components/modals/delete-modal/delete-modal.component';
@@ -13,7 +13,7 @@ declare var $: any;
   styleUrls: ['./role.component.css'],
   providers: [RoleService]
 })
-export class RoleComponent implements OnInit, AfterViewInit {
+export class RoleComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild('createOrUpdateRole')
   createOrUpdateModal: CreateOrUpdateModalComponent;
 
@@ -161,6 +161,10 @@ export class RoleComponent implements OnInit, AfterViewInit {
     }
   }
 
+  ngOnDestroy(){
+    this.createOrUpdateModal.hide();
+    this.deleteModal.hide();
+  }
 
 
 }

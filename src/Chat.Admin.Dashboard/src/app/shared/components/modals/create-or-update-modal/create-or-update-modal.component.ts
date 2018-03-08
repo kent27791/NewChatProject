@@ -1,4 +1,4 @@
-import { Component, OnInit, ElementRef, Input, Output, EventEmitter, AfterViewInit } from '@angular/core';
+import { Component, OnInit, ElementRef, Input, Output, EventEmitter, AfterViewInit, NgZone } from '@angular/core';
 
 @Component({
   selector: 'app-create-or-update-modal',
@@ -13,7 +13,7 @@ export class CreateOrUpdateModalComponent implements OnInit, AfterViewInit {
   isEdit: boolean;
 
   private _modal;
-  constructor(private element: ElementRef) {
+  constructor(private zone: NgZone, private element: ElementRef) {
 
   }
 

@@ -1,11 +1,13 @@
 import { Injectable, Injector } from '@angular/core';
 import { environment } from '../../../../environments/environment';
 import { HttpClient } from '@angular/common/http';
+import { Router } from '@angular/router';
 @Injectable()
 export class AuthService {
-  uri = '/api/security/';
-  constructor(private http: HttpClient) {
-
+  private uri = 'api/security/';
+  private _endPoint;
+  constructor(private router: Router, private http: HttpClient) {
+    this._endPoint = environment.endPoint;
   }
 
   getToken(): string {
@@ -20,8 +22,17 @@ export class AuthService {
     return false;
   }
 
-  signIn() {
+  signIn(userSignIn: object){
+    return this.http.post<any>(this._endPoint + this.uri + 'sign-in/', userSignIn, {});
+  }
 
+  signUp(userSignUp: object){
+    return this.http.post<any>(this._endPoint + this.uri + 'sign-up/', userSignUp, {});
+  }
+
+  logOut() {
+    localStorage.removeItem(environment.tokenName);
+    this.router.navigate(['/authentication/sign-in']);
   }
 
 

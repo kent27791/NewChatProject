@@ -4,6 +4,7 @@ using Chat.Module.Core.Extentions;
 using Chat.Module.Core.Models;
 using Chat.Module.Core.Services;
 using Chat.Module.Core.ViewModels;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -19,6 +20,7 @@ using System.Threading.Tasks;
 namespace Chat.Module.Core.Controllers
 {
     [Route("api/security")]
+    [EnableCors("cors-app")]
     public class SecurityController : Controller
     {
         private readonly ILogger<SecurityController> _logger;
@@ -42,7 +44,7 @@ namespace Chat.Module.Core.Controllers
             this._mapper = mapper;
         }
 
-        [Route("token")]
+        [Route("sign-in")]
         [HttpPost]
         public IActionResult Token([FromBody] SignInViewModel viewModel)
         {
@@ -50,15 +52,19 @@ namespace Chat.Module.Core.Controllers
             {
                 return BadRequest();
             }
+
             var original = _userManager.FindByNameAsync(viewModel.UserName).Result;
+
             if(original == null || !_userManager.CheckPasswordAsync(original, viewModel.Password).Result)
             {
                 return BadRequest();
             }
+
             var claims = new[]
             {
                 new Claim(ClaimTypes.Name, original.UserName),
             };
+
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_settings.JwtBearer.SecretKey));
             var token = new JwtSecurityToken(
                 issuer: _settings.JwtBearer.Issuer,
@@ -76,9 +82,9 @@ namespace Chat.Module.Core.Controllers
             });
         }
 
-        [Route("create-user")]
+        [Route("sign-up")]
         [HttpPost]
-        public IActionResult Create([FromBody] SignUpViewModel viewModel)
+        public IActionResult SignUp([FromBody] SignUpViewModel viewModel)
         {
             var user = _mapper.Map<User>(viewModel);
             IdentityResult result = _userManager.CreateAsync(user).Result;

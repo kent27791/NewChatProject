@@ -19,6 +19,7 @@ namespace Chat.Module.Core.Controllers
 {
     [Route("api/page")]
     [EnableCors("cors-app")]
+    //[Authorize(Policy = "Permission")]
     public class PageController : Controller
     {
         private readonly ILogger<PageController> _logger;
@@ -46,7 +47,6 @@ namespace Chat.Module.Core.Controllers
 
         [Route("find/{id}", Name = "find-page")]
         [HttpGet]
-        [Authorize(Policy = "Permission")]
         public IActionResult Find(long id)
         {
             return Ok(_pageService.Find(id));
@@ -128,7 +128,6 @@ namespace Chat.Module.Core.Controllers
 
         [Route("grant-user/{userId}")]
         [HttpGet]
-        [Authorize(Policy = "Permission")]
         public IActionResult GrantUser(long pageId, [FromRoute] long userId)
         {
             var originalPage = _pageService.Repository.Query().Include(p => p.Users).SingleOrDefault(p => p.Id == pageId);

@@ -3,6 +3,7 @@ using Chat.Common.DataTable;
 using Chat.Module.Core.Models;
 using Chat.Module.Core.Services;
 using Chat.Module.Core.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -17,6 +18,7 @@ namespace Chat.Module.Core.Controllers
 {
     [Route("api/user")]
     [EnableCors("cors-app")]
+    [Authorize(Policy = "Permission")]
     public class UserController : Controller
     {
         private readonly ILogger<UserController> _logger;

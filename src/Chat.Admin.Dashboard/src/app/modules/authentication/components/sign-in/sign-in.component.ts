@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
-
+import { ToastrService } from 'ngx-toastr';
+import { environment } from '../../../../../environments/environment';
+import { Router, NavigationEnd } from '@angular/router';
+import {Location} from '@angular/common';
 @Component({
   selector: 'app-sign-in',
   templateUrl: './sign-in.component.html',
@@ -8,7 +11,7 @@ import { AuthService } from '../../services/auth.service';
 })
 export class SignInComponent implements OnInit {
   userSignIn: object = {};
-  constructor(private authService: AuthService) {
+  constructor(private location: Location, private router: Router, private authService: AuthService, private toastrService: ToastrService) {
 
   }
 
@@ -16,7 +19,14 @@ export class SignInComponent implements OnInit {
   }
 
   signIn() {
-    console.log(this.userSignIn);
+    this.authService.signIn(this.userSignIn).subscribe(
+      response => {
+        localStorage.setItem(environment.tokenName, response.access_token);
+        this.toastrService.success('Đăng nhập thành công.');
+        this.location.back();
+      }, error => {
+        console.log(error);
+        this.toastrService.error('Đăng nhập không thành công.');
+      })
   }
-
 }
