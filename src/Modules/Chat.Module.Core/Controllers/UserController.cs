@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -23,18 +24,21 @@ namespace Chat.Module.Core.Controllers
     {
         private readonly ILogger<UserController> _logger;
         private readonly IUserService _userService;
+        private readonly IRoleService _roleService;
         private readonly UserManager<User> _userManager;
         private readonly IMapper _mapper;
         public UserController(
             ILogger<UserController> logger,
             IMapper mapper,
             UserManager<User> userManager,
-            IUserService userService)
+            IUserService userService,
+            IRoleService roleService)
         {
             this._logger = logger;
             this._mapper = mapper;
             this._userManager = userManager;
             this._userService = userService;
+            this._roleService = roleService;
         }
 
         [Route("data-table-paging")]
@@ -42,6 +46,15 @@ namespace Chat.Module.Core.Controllers
         public IActionResult DataTablePaging([FromBody] DataTableRequest request)
         {
             return Ok(_userService.DataTablePaging<UserDataTableViewModel>(_userService.Repository.Query(), request));
+        }
+
+        [Route("role-grant-data-table-paging/{id}")]
+        [HttpPost]
+        public IActionResult RoleGrantDataTablePaging([FromRoute] long id, [FromBody] DataTableRequest request)
+        {
+            var result = _roleService.DataTablePaging<RoleDataTableGrantViewModel>(_roleService.Repository.Query().Include(u => u.Users), request);
+            result.Data.ToList().ForEach(u => u.Checked = u.UserIds.Any(p => p == id));
+            return Ok(result);
         }
 
         [Route("find/{id}")]
@@ -104,6 +117,44 @@ namespace Chat.Module.Core.Controllers
             }
             _userService.Delete(original);
             return Ok(original);
+        }
+
+        [Route("grant-role/{roleId}")]
+        [HttpGet]
+        public IActionResult GrantRole(long userId, [FromRoute] long roleId)
+        {
+            var originalUser = _userService.Repository.Query().Include(u => u.Roles).SingleOrDefault(u => u.Id == userId);
+            if (originalUser == null)
+            {
+                return NotFound();
+            }
+            originalUser.Roles.Add(new UserRole
+            {
+                RoleId = roleId,
+                UserId = userId
+            });
+            _userService.Update(originalUser);
+            _userService.Repository.Commit();
+            return Ok();
+        }
+
+        [Route("deny-role/{roleId}")]
+        [HttpGet]
+        public IActionResult DenyRole(long userId, [FromRoute] long roleId)
+        {
+            var originalUser = _userService.Repository.Query().Include(u => u.Roles).SingleOrDefault(u => u.Id == userId);
+            if (originalUser == null)
+            {
+                return NotFound();
+            }
+            originalUser.Roles.Remove(new UserRole
+            {
+                RoleId = roleId,
+                UserId = userId
+            });
+            _userService.Update(originalUser);
+            _userService.Repository.Commit();
+            return Ok();
         }
     }
 }

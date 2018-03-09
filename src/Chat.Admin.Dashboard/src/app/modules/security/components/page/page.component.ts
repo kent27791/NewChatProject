@@ -65,13 +65,13 @@ export class PageComponent implements OnInit, AfterViewInit, OnDestroy {
               let userId = $(this).attr('data-user-id');
               let pageId = self.page.Id;
               if (checked) {
-                self.pageService.grantUser(userId, pageId).subscribe(
+                self.pageService.grantUserPermission(userId, pageId).subscribe(
                   response => {
                     self.toastrService.success('Grant page thành công')
                   }
                 )
               } else {
-                self.pageService.denyUser(userId, pageId).subscribe(
+                self.pageService.denyUserPermission(userId, pageId).subscribe(
                   response => {
                     self.toastrService.success('Deny page thành công')
                   }
@@ -139,12 +139,12 @@ export class PageComponent implements OnInit, AfterViewInit, OnDestroy {
         }
       })
   
-      $(document).on('click', '.show-grant', function () {
+      $(document).on('click', '.show-grant-user-permission', function () {
         let id = $(this).attr('data-id');
-        $('#grant-modal').modal('show');
+        $('#grant-user-permission-modal').modal('show');
         self.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
           dtInstance.draw();
-          $('#grant-modal').modal('show');
+          $('#grant-user-permission-modal').modal('show');
         });
       })
     })
@@ -174,9 +174,10 @@ export class PageComponent implements OnInit, AfterViewInit, OnDestroy {
           node.id = node.Id;
           node.parent = node.ParentId == 0 ? '#' : node.ParentId;
           node.text = `<span class="nav-label">${node.Id}.${node.Name}</span>
-                      <span data-id="${node.Id}" class="show-grant label label-primary">
+                      <span data-id="${node.Id}" class="show-grant-user-permission label label-primary">
                         <i class="fa fa-sitemap"></i>
-                      </span>`;
+                      </span>
+                      `;
           node.icon = node.Type == 1 ? 'fa fa-folder' : 'fa fa-file';
         }
         this.page = response[0];
@@ -210,6 +211,6 @@ export class PageComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    $('#grant-modal').modal('hide');
+    //$('#grant-user-permission-modal').modal('hide');
   }
 }

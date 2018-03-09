@@ -13,5 +13,15 @@ namespace Chat.Module.Core.Models
 
         public Role Role { get; set; }
         public User User { get; set; }
+
+        public override bool Equals(object obj)
+        {
+            UserRole other = obj as UserRole;
+            return other.UserId == this.UserId && other.RoleId == this.RoleId;
+        }
+        public override int GetHashCode()
+        {
+            return this.UserId.GetHashCode() ^ this.RoleId.GetHashCode();
+        }
     }
 }

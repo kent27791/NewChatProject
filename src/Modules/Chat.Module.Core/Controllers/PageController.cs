@@ -126,9 +126,9 @@ namespace Chat.Module.Core.Controllers
             return Ok(result);
         }
 
-        [Route("grant-user/{userId}")]
+        [Route("grant-user-permission/{userId}")]
         [HttpGet]
-        public IActionResult GrantUser(long pageId, [FromRoute] long userId)
+        public IActionResult GrantUserPermission(long pageId, [FromRoute] long userId)
         {
             var originalPage = _pageService.Repository.Query().Include(p => p.Users).SingleOrDefault(p => p.Id == pageId);
             if (originalPage == null)
@@ -145,9 +145,9 @@ namespace Chat.Module.Core.Controllers
             return Ok();
         }
 
-        [Route("deny-user/{userId}")]
+        [Route("deny-user-permission/{userId}")]
         [HttpGet]
-        public IActionResult DenyUser(long pageId, [FromRoute] long userId)
+        public IActionResult DenyUserPermission(long pageId, [FromRoute] long userId)
         {
             var originalPage = _pageService.Repository.Query().Include(p => p.Users).SingleOrDefault(p => p.Id == pageId);
             if (originalPage == null)

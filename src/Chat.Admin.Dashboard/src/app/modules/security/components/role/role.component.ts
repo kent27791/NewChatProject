@@ -162,8 +162,8 @@ export class RoleComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngOnDestroy(){
-    this.createOrUpdateModal.hide();
-    this.deleteModal.hide();
+    //this.createOrUpdateModal.hide();
+    //this.deleteModal.hide();
   }
 
 

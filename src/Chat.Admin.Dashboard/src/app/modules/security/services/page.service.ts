@@ -18,11 +18,11 @@ export class PageService extends BaseService {
     return this.http.post<DataTableResponse>(this._endPoint + this.uri + 'user-grant-data-table-paging/' + id, request, {});
   }
 
-  grantUser(userId: number, pageId: number) {
-    return this.http.get(this._endPoint + this.uri + 'grant-user/' + userId, { params: { pageId: pageId.toString() } });
+  grantUserPermission(userId: number, pageId: number) {
+    return this.http.get(this._endPoint + this.uri + 'grant-user-permission/' + userId, { params: { pageId: pageId.toString() } });
   }
 
-  denyUser(userId: number, pageId: number) {
-    return this.http.get(this._endPoint + this.uri + 'deny-user/' + userId, { params: { pageId: pageId.toString() } });
+  denyUserPermission(userId: number, pageId: number) {
+    return this.http.get(this._endPoint + this.uri + 'deny-user-permission/' + userId, { params: { pageId: pageId.toString() } });
   }
 }

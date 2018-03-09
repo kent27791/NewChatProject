@@ -15,4 +15,12 @@ namespace Chat.Module.Core.ViewModels
         public long Id { get; set; }
         public string Name { get; set; }
     }
+
+    public  class RoleDataTableGrantViewModel
+    {
+        public long Id { get; set; }
+        public string Name { get; set; }
+        public bool Checked { get; set; }
+        public List<long> UserIds { get; set; }
+    }
 }

@@ -111,14 +111,14 @@ $(document).ready(function () {
     });
 
     // Tooltips demo
-    $('.tooltip-demo').tooltip({
+    $('body').tooltip({
         selector: "[data-toggle=tooltip]",
         container: "body"
     });
 
     // Move modal to body
     // Fix Bootstrap backdrop issu with animation.css
-    $('.modal').appendTo("body");
+    //$('.modal').appendTo("body");
 
     // Full height of sidebar
     function fix_height() {
