@@ -12,5 +12,7 @@ namespace Chat.Module.Core.Services
     public interface IPageService : IService<ChatManagementContext, Page, long>
     {
         List<PageTreeViewModel> Tree(int type);
+
+        List<MenuViewModel> Menus(long userId, List<long> roleIds);
     }
 }

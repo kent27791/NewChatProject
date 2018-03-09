@@ -13,6 +13,7 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace Chat.Module.Core.Controllers
@@ -161,6 +162,13 @@ namespace Chat.Module.Core.Controllers
             });
             _pageService.Update(originalPage);
             _pageService.Repository.Commit();
+            return Ok();
+        }
+
+        [Route("user-menus")]
+        [HttpGet]
+        public IActionResult Menus()
+        {
             return Ok();
         }
     }

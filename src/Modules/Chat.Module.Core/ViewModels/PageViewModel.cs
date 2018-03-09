@@ -27,4 +27,11 @@ namespace Chat.Module.Core.ViewModels
         public long Id { get; set; }
         public string Name { get; set; }
     }
+
+    public class MenuViewModel
+    {
+        public long Id { get; set; }
+        public long ParentId { get; set; }
+        public string Name { get; set; }
+    }
 }
