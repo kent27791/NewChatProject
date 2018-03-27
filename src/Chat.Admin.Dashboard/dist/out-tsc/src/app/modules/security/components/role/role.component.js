@@ -11,8 +11,8 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var role_service_1 = require("../../services/role.service");
-var create_or_update_modal_component_1 = require("../../../../shared/components/create-or-update-modal/create-or-update-modal.component");
-var delete_modal_component_1 = require("../../../../shared/components/delete-modal/delete-modal.component");
+var create_or_update_modal_component_1 = require("../../../../shared/components/modals/create-or-update-modal/create-or-update-modal.component");
+var delete_modal_component_1 = require("../../../../shared/components/modals/delete-modal/delete-modal.component");
 var angular_datatables_1 = require("angular-datatables");
 var Subject_1 = require("rxjs/Subject");
 var ngx_toastr_1 = require("ngx-toastr");
@@ -136,6 +136,10 @@ var RoleComponent = /** @class */ (function () {
                 _this.toastrService.error("Xóa dữ liệu không thành công");
             });
         }
+    };
+    RoleComponent.prototype.ngOnDestroy = function () {
+        //this.createOrUpdateModal.hide();
+        //this.deleteModal.hide();
     };
     __decorate([
         core_1.ViewChild('createOrUpdateRole'),

@@ -30,6 +30,8 @@ using Chat.Module.Core.Data;
 
 using Chat.Admin.Api.Security;
 using AutoMapper;
+using Chat.Module.Report.Data;
+using MongoDB.Driver;
 
 namespace Chat.Admin.Api.Extentions
 {
@@ -154,6 +156,11 @@ namespace Chat.Admin.Api.Extentions
             services.AddDbContextPool<ChatManagementContext>(dbOptions =>
                 dbOptions.UseSqlServer(settings.ConnectionStrings.ChatManagement, sqlOptions =>
                     sqlOptions.MigrationsAssembly("Chat.Admin.Api")));
+            //for mongodb
+            services.AddSingleton<IMongoDatabaseContext<ReportManagementContext>>(context =>
+            {
+                return new ReportManagementContext(new MongoUrl(settings.MongoDbConnectionStrings.ChatManagement));
+            });
 
             return services;
         }
@@ -227,6 +234,7 @@ namespace Chat.Admin.Api.Extentions
         {
             var builder = new ContainerBuilder();
             builder.RegisterGeneric(typeof(Repository<,,>)).As(typeof(IRepository<,,>));
+            builder.RegisterGeneric(typeof(MongoDbRepository<,,>)).As(typeof(IMongoRepository<,,>));
             foreach (var module in GlobalConfiguration.Modules)
             {
                 builder.RegisterAssemblyTypes(module.Assembly).AsImplementedInterfaces();

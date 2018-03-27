@@ -27,6 +27,15 @@ var UserService = /** @class */ (function (_super) {
     function UserService(http) {
         return _super.call(this, http, 'api/user/') || this;
     }
+    UserService.prototype.roleGrantDataTablePaging = function (id, request) {
+        return this.http.post(this._endPoint + this.uri + 'role-grant-data-table-paging/' + id, request, {});
+    };
+    UserService.prototype.grantRole = function (userId, roleId) {
+        return this.http.get(this._endPoint + this.uri + 'grant-role/' + roleId, { params: { userId: userId.toString() } });
+    };
+    UserService.prototype.denyRole = function (userId, roleId) {
+        return this.http.get(this._endPoint + this.uri + 'deny-role/' + roleId, { params: { userId: userId.toString() } });
+    };
     UserService = __decorate([
         core_1.Injectable(),
         __metadata("design:paramtypes", [http_1.HttpClient])

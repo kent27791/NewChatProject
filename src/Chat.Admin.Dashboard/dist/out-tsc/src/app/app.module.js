@@ -12,11 +12,14 @@ var animations_1 = require("@angular/platform-browser/animations");
 var forms_1 = require("@angular/forms");
 var http_1 = require("@angular/common/http");
 var ngx_toastr_1 = require("ngx-toastr");
+var shared_module_1 = require("./shared/shared.module");
 var app_component_1 = require("./app.component");
 var app_routing_module_1 = require("./app-routing.module");
-var page_not_found_component_1 = require("./shared/components/page-not-found/page-not-found.component");
-var token_interceptor_1 = require("./shared/auths/token.interceptor");
-var auth_service_1 = require("./shared/services/auth.service");
+var token_interceptor_1 = require("./shared/interceptors/token.interceptor");
+var admin_layout_component_1 = require("./shared/components/layouts/admin-layout/admin-layout.component");
+var auth_layout_component_1 = require("./shared/components/layouts/auth-layout/auth-layout.component");
+var auth_service_1 = require("./modules/authentication/services/auth.service");
+var auth_guard_1 = require("./shared/guards/auth.guard");
 var AppModule = /** @class */ (function () {
     function AppModule() {
     }
@@ -24,14 +27,16 @@ var AppModule = /** @class */ (function () {
         core_1.NgModule({
             declarations: [
                 app_component_1.AppComponent,
-                page_not_found_component_1.PageNotFoundComponent,
+                admin_layout_component_1.AdminLayoutComponent,
+                auth_layout_component_1.AuthLayoutComponent,
             ],
             imports: [
                 platform_browser_1.BrowserModule,
+                animations_1.BrowserAnimationsModule,
+                shared_module_1.SharedModule,
                 app_routing_module_1.AppRoutingModule,
                 forms_1.FormsModule,
                 http_1.HttpClientModule,
-                animations_1.BrowserAnimationsModule,
                 ngx_toastr_1.ToastrModule.forRoot({
                     timeOut: 3000,
                     progressBar: true,
@@ -47,6 +52,7 @@ var AppModule = /** @class */ (function () {
                     useClass: token_interceptor_1.TokenInterceptor,
                     multi: true,
                 },
+                auth_guard_1.AuthGuard
             ],
             bootstrap: [app_component_1.AppComponent]
         })

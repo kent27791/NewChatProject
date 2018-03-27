@@ -33,11 +33,11 @@ var PageService = /** @class */ (function (_super) {
     PageService.prototype.userGrantDataTablePaging = function (id, request) {
         return this.http.post(this._endPoint + this.uri + 'user-grant-data-table-paging/' + id, request, {});
     };
-    PageService.prototype.grantUser = function (userId, pageId) {
-        return this.http.get(this._endPoint + this.uri + 'grant-user/' + userId, { params: { pageId: pageId.toString() } });
+    PageService.prototype.grantUserPermission = function (userId, pageId) {
+        return this.http.get(this._endPoint + this.uri + 'grant-user-permission/' + userId, { params: { pageId: pageId.toString() } });
     };
-    PageService.prototype.denyUser = function (userId, pageId) {
-        return this.http.get(this._endPoint + this.uri + 'deny-user/' + userId, { params: { pageId: pageId.toString() } });
+    PageService.prototype.denyUserPermission = function (userId, pageId) {
+        return this.http.get(this._endPoint + this.uri + 'deny-user-permission/' + userId, { params: { pageId: pageId.toString() } });
     };
     PageService = __decorate([
         core_1.Injectable(),

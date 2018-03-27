@@ -8,12 +8,27 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var router_1 = require("@angular/router");
-var page_not_found_component_1 = require("./shared/components/page-not-found/page-not-found.component");
+var page_not_found_component_1 = require("./shared/components/errors/page-not-found/page-not-found.component");
 var security_module_1 = require("./modules/security/security.module");
+var admin_layout_component_1 = require("./shared/components/layouts/admin-layout/admin-layout.component");
+var auth_layout_component_1 = require("./shared/components/layouts/auth-layout/auth-layout.component");
+var authentication_module_1 = require("./modules/authentication/authentication.module");
 var routes = [
     {
-        path: 'security',
-        loadChildren: function () { return security_module_1.SecurityModule; }
+        path: '',
+        component: admin_layout_component_1.AdminLayoutComponent,
+        children: [{
+                path: 'security',
+                loadChildren: function () { return security_module_1.SecurityModule; },
+            }]
+    },
+    {
+        path: '',
+        component: auth_layout_component_1.AuthLayoutComponent,
+        children: [{
+                path: 'authentication',
+                loadChildren: function () { return authentication_module_1.AuthenticationModule; }
+            }]
     },
     {
         path: '**',

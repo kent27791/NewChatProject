@@ -12,67 +12,125 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var user_service_1 = require("../../services/user.service");
 var angular_datatables_1 = require("angular-datatables");
-var rxjs_1 = require("rxjs");
 var ngx_toastr_1 = require("ngx-toastr");
+var role_service_1 = require("../../services/role.service");
 var UserComponent = /** @class */ (function () {
-    function UserComponent(userService, toastrService) {
+    function UserComponent(zone, userService, toastrService) {
+        this.zone = zone;
         this.userService = userService;
         this.toastrService = toastrService;
-        this.dtOptions = {};
-        this.dtTrigger = new rxjs_1.Subject();
+        this.dtOptions = [];
         this.user = {};
     }
     UserComponent.prototype.ngOnInit = function () {
         var _this = this;
-        this.dtOptions = {
-            lengthMenu: [[10, 25, 50], [10, 25, 50]],
-            pageLength: 10,
-            serverSide: true,
-            processing: true,
-            ajax: function (request, callback) {
-                request.filter = {};
-                _this.userService.dataTablePaging(request).subscribe(function (response) {
-                    _this.users = response.data;
-                    callback({
-                        recordsTotal: response.recordsTotal,
-                        recordsFiltered: response.recordsFiltered,
-                        data: [],
+        var self = this;
+        this.zone.run(function () {
+            _this.dtOptions[0] = {
+                lengthMenu: [[10, 25, 50], [10, 25, 50]],
+                pageLength: 10,
+                serverSide: true,
+                processing: true,
+                ajax: function (request, callback) {
+                    request.filter = {};
+                    self.userService.dataTablePaging(request).subscribe(function (response) {
+                        self.users = response.data;
+                        callback({
+                            recordsTotal: response.recordsTotal,
+                            recordsFiltered: response.recordsFiltered,
+                            data: [],
+                        });
+                    }, function (error) {
+                        self.toastrService.error("Tìm kiếm dữ liệu lỗi.");
                     });
-                }, function (error) {
-                    _this.toastrService.error("Tìm kiếm dữ liệu lỗi.");
-                });
-            },
-            columns: [
-                { data: 'Id', name: 'Id', title: 'Id', },
-                { data: 'UserName', name: 'UserName', title: 'UserName', },
-                { data: 'Email', name: 'Email', title: 'Email', },
-            ],
-        };
+                },
+                columns: [
+                    { data: 'Id', name: 'Id', title: 'Id', },
+                    { data: 'UserName', name: 'UserName', title: 'UserName', },
+                    { data: 'Email', name: 'Email', title: 'Email', },
+                    { data: null, name: null, title: 'Action', },
+                ],
+            };
+            _this.dtOptions[1] = {
+                lengthMenu: [[10, 25, 50], [10, 25, 50]],
+                pageLength: 10,
+                serverSide: true,
+                processing: true,
+                deferLoading: 0,
+                ajax: function (request, callback) {
+                    request.filter = {};
+                    self.userService.roleGrantDataTablePaging(self.user.Id, request).subscribe(function (response) {
+                        self.roles = response.data;
+                        callback({
+                            recordsTotal: response.recordsTotal,
+                            recordsFiltered: response.recordsFiltered,
+                            data: response.data,
+                        });
+                    }, function (error) {
+                        self.toastrService.error("Tìm kiếm dữ liệu lỗi.");
+                    });
+                },
+                createdRow: function (row, data, index) {
+                    self.zone.run(function () {
+                        $(row).find('[data-toggle="tooltip"]').tooltip();
+                        $(row).find('.checkbox-grant-role').iCheck({
+                            checkboxClass: 'icheckbox_square-green',
+                            radioClass: 'iradio_square-green',
+                        }).on('ifChanged', function (event) {
+                            console.log(self.user);
+                            var checked = $(this).prop('checked');
+                            var roleId = $(this).attr('data-role-id');
+                            var userId = self.user.Id;
+                            if (checked) {
+                                self.userService.grantRole(userId, roleId).subscribe(function (response) {
+                                    self.toastrService.success('Grant role thành công');
+                                });
+                            }
+                            else {
+                                self.userService.denyRole(userId, roleId).subscribe(function (response) {
+                                    self.toastrService.success('Deny role thành công');
+                                });
+                            }
+                        });
+                    });
+                },
+                columns: [
+                    {
+                        data: null, name: null, orderable: false,
+                        render: function (data, type, row, meta) {
+                            if (data.Checked) {
+                                return "<input class=\"checkbox-grant-role\" checked=\"checked\" type=\"checkbox\" data-role-id=\"" + data.Id + "\"/>";
+                            }
+                            return "<input class=\"checkbox-grant-role\" type=\"checkbox\" data-role-id=\"" + data.Id + "\"/>";
+                        }
+                    },
+                    { data: 'Id', name: 'Id', title: 'Id', },
+                    { data: 'Name', name: 'Name', title: 'RoleName', },
+                ],
+            };
+        });
     };
     UserComponent.prototype.ngAfterViewInit = function () {
-        this.dtTrigger.next();
     };
-    UserComponent.prototype.reRender = function () {
-        var _this = this;
-        this.dtElement.dtInstance.then(function (dtInstance) {
-            // Destroy the table first
-            dtInstance.destroy();
-            // Call the dtTrigger to rerender again
-            _this.dtTrigger.next();
+    UserComponent.prototype.showGrantRole = function (user) {
+        this.user = user;
+        this.dtElements.find(function (item, index, array) { return index == 1; }).dtInstance.then(function (dtInstance) {
+            dtInstance.draw();
+            $('#grant-role-modal').modal('show');
         });
     };
     __decorate([
-        core_1.ViewChild(angular_datatables_1.DataTableDirective),
-        __metadata("design:type", angular_datatables_1.DataTableDirective)
-    ], UserComponent.prototype, "dtElement", void 0);
+        core_1.ViewChildren(angular_datatables_1.DataTableDirective),
+        __metadata("design:type", core_1.QueryList)
+    ], UserComponent.prototype, "dtElements", void 0);
     UserComponent = __decorate([
         core_1.Component({
             selector: 'app-user',
             templateUrl: './user.component.html',
             styleUrls: ['./user.component.css'],
-            providers: [user_service_1.UserService]
+            providers: [user_service_1.UserService, role_service_1.RoleService]
         }),
-        __metadata("design:paramtypes", [user_service_1.UserService, ngx_toastr_1.ToastrService])
+        __metadata("design:paramtypes", [core_1.NgZone, user_service_1.UserService, ngx_toastr_1.ToastrService])
     ], UserComponent);
     return UserComponent;
 }());

@@ -8,6 +8,8 @@ namespace Chat.Core.Configuration
     {
         ConnectionStrings ConnectionStrings { get; set; }
 
+        MongoConnectionStrings MongoDbConnectionStrings { get; set; }
+
         Redis Redis { get; set; }
 
         JwtBearer JwtBearer { get; set; }

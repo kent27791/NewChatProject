@@ -14,18 +14,19 @@ var page_component_1 = require("./components/page/page.component");
 var routes = [
     {
         path: '',
+        //canActivate: [AuthGuard],
         children: [
             {
                 path: 'role',
-                component: role_component_1.RoleComponent
+                component: role_component_1.RoleComponent,
             },
             {
                 path: 'user',
-                component: user_component_1.UserComponent
+                component: user_component_1.UserComponent,
             },
             {
                 path: 'page',
-                component: page_component_1.PageComponent
+                component: page_component_1.PageComponent,
             }
         ]
     }
