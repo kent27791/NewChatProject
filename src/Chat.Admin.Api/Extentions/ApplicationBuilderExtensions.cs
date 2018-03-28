@@ -8,6 +8,9 @@ using Microsoft.Extensions.Logging;
 
 using NLog.Extensions.Logging;
 using NLog.Web;
+using Microsoft.AspNetCore.Localization;
+using System.Globalization;
+
 namespace Chat.Admin.Api.Extentions
 {
     public static class ApplicationBuilderExtensions
@@ -15,6 +18,19 @@ namespace Chat.Admin.Api.Extentions
         public static IApplicationBuilder UseCustomizedIdentity(this IApplicationBuilder app)
         {
             app.UseAuthentication();
+            return app;
+        }
+
+        public static IApplicationBuilder UseCustomizedLocalization(this IApplicationBuilder app)
+        {
+            app.UseRequestLocalization(new RequestLocalizationOptions
+            {
+                DefaultRequestCulture = new RequestCulture("vi-VN"),
+                //// Formatting numbers, dates, etc.
+                //SupportedCultures = new[] { new CultureInfo("vi-VN") },
+                //// UI strings that we have localized.
+                //SupportedUICultures = new[] { new CultureInfo("vi-VN") },
+            });
             return app;
         }
 

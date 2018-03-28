@@ -33,9 +33,7 @@ namespace Chat.Module.Core.Controllers
             var a = _roleService.Find(1);
 
             var b = _roleService.Find(1);
-
-            var redis = _settings.Redis;
-            return Json(redis);
+            return Json(b);
         }
 
         [HttpPost]

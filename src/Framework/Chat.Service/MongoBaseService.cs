@@ -1,6 +1,8 @@
 ﻿using Chat.Core.Data;
 using Chat.Core.Domain;
 using Chat.Core.Service;
+using MongoDB.Bson;
+using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,6 +30,30 @@ namespace Chat.Service
         public IEnumerable<TEntity> FindAll()
         {
             return _repository.Query().ToList();
+        }
+        public TEntity Add(TEntity entity)
+        {
+            return _repository.Add(entity);
+        }
+
+        public bool Update(FilterDefinition<TEntity> filterDefinition, UpdateDefinition<TEntity> updateDefinition)
+        {
+            return _repository.Update(filterDefinition, updateDefinition).IsAcknowledged;
+        }
+
+        public bool Delete(TKey key)
+        {
+            return _repository.Delete(key).IsAcknowledged;
+        }
+
+        public bool Delete(TEntity entity)
+        {
+            return _repository.Delete(entity).IsAcknowledged;
+        }
+
+        public bool Save(TEntity entity)
+        {
+            return _repository.Save(entity).IsAcknowledged;
         }
     }
 }

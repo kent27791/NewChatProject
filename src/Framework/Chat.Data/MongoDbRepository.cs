@@ -42,14 +42,19 @@ namespace Chat.Data
             return result;
         }
 
-        public void Delete(TKey key)
+        public DeleteResult Delete(TKey key)
         {
-            this._collection.DeleteOne(t => t.Id.Equals(key));
+            return this._collection.DeleteOne(t => t.Id.Equals(key));
         }
 
-        public void Delete(TEntity entity)
+        public DeleteResult Delete(TEntity entity)
         {
-            this._collection.DeleteOne(t => t.Id.Equals(entity.Id));
+            return this._collection.DeleteOne(t => t.Id.Equals(entity.Id));
+        }
+
+        public ReplaceOneResult Save(TEntity entity)
+        {
+            return this._collection.ReplaceOne(t => t.Id.Equals(entity.Id), entity, new UpdateOptions { IsUpsert = true });
         }
     }
 }

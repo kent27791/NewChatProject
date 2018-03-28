@@ -32,6 +32,11 @@ using Chat.Admin.Api.Security;
 using AutoMapper;
 using Chat.Module.Report.Data;
 using MongoDB.Driver;
+using System.Globalization;
+using Newtonsoft.Json;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Localization;
+using Chat.Core.Caching;
 
 namespace Chat.Admin.Api.Extentions
 {
@@ -112,6 +117,11 @@ namespace Chat.Admin.Api.Extentions
                 .AddDataAnnotationsLocalization()
                 .AddJsonOptions(options =>
                 {
+                    //options.SerializerSettings.Culture = new CultureInfo("vi-VN");
+                    //options.SerializerSettings.DateFormatHandling = DateFormatHandling.IsoDateFormat;
+                    //options.SerializerSettings.DateTimeZoneHandling = DateTimeZoneHandling.Unspecified;
+                    //options.SerializerSettings.DateParseHandling = DateParseHandling.None;
+                    options.SerializerSettings.DateFormatString = "dd/MM/yyyy HH:mm:ss";
                     options.SerializerSettings.ContractResolver = new DefaultContractResolver()
                     {
                         //NamingStrategy = new SnakeCaseNamingStrategy()
@@ -153,13 +163,14 @@ namespace Chat.Admin.Api.Extentions
 
         public static IServiceCollection AddCustomizedDataStore(this IServiceCollection services, ISettings settings)
         {
+            //for sql server
             services.AddDbContextPool<ChatManagementContext>(dbOptions =>
-                dbOptions.UseSqlServer(settings.ConnectionStrings.ChatManagement, sqlOptions =>
+                dbOptions.UseSqlServer(settings.Databases.SqlConnectionStrings.ChatManagement, sqlOptions =>
                     sqlOptions.MigrationsAssembly("Chat.Admin.Api")));
             //for mongodb
             services.AddSingleton<IMongoDatabaseContext<ReportManagementContext>>(context =>
             {
-                return new ReportManagementContext(new MongoUrl(settings.MongoDbConnectionStrings.ChatManagement));
+                return new ReportManagementContext(new MongoUrl(settings.Databases.MongoConnectionStrings.ChatManagement));
             });
 
             return services;
@@ -230,7 +241,7 @@ namespace Chat.Admin.Api.Extentions
             return services;
         }
 
-        public static IServiceProvider Build(this IServiceCollection services, IConfiguration configuration, IHostingEnvironment hostingEnvironment)
+        public static IServiceProvider Build(this IServiceCollection services, IConfiguration configuration, IHostingEnvironment hostingEnvironment, ISettings settings)
         {
             var builder = new ContainerBuilder();
             builder.RegisterGeneric(typeof(Repository<,,>)).As(typeof(IRepository<,,>));
@@ -239,9 +250,21 @@ namespace Chat.Admin.Api.Extentions
             {
                 builder.RegisterAssemblyTypes(module.Assembly).AsImplementedInterfaces();
             }
+
             builder.RegisterInstance(configuration);
             builder.RegisterInstance(hostingEnvironment);
 
+            builder.RegisterType<PerRequestCacheManager>().As<ICacheManager>().InstancePerLifetimeScope();
+            if (settings.Cachings.RedisCachingEnabled)
+            {
+                builder.RegisterType<RedisConnectionWrapper>().As<IRedisConnectionWrapper>().SingleInstance();
+                builder.RegisterType<RedisCacheManager>().As<IStaticCacheManager>().InstancePerLifetimeScope();
+            }
+            else
+            {
+                builder.RegisterType<MemoryCacheManager>().As<IStaticCacheManager>().SingleInstance();
+            }
+           
             builder.Populate(services);
             var container = builder.Build();
             return container.Resolve<IServiceProvider>();

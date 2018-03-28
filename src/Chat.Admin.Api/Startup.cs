@@ -47,7 +47,7 @@ namespace Chat.Admin.Api
             services.AddScoped<ISettings, MySettings>(factory => _configuration.GetCustomizedSettings());
             services.AddSingleton<IAuthorizationHandler, PermissionHandler>();
            
-            return services.Build(_configuration, _hostingEnvironment);
+            return services.Build(_configuration, _hostingEnvironment, _settings);
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
@@ -64,6 +64,7 @@ namespace Chat.Admin.Api
             //app.UseStatusCodePagesWithReExecute("/Home/ErrorWithCode/{0}"); //authentication return 404.
             app.UseCustomizedStaticFiles(env);
             app.UseCustomizedIdentity();
+            app.UseCustomizedLocalization();
             app.UseCustomizedMvc();
             app.UseCustomizedCors();
 

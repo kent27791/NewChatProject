@@ -13,6 +13,10 @@ namespace Chat.Module.Report.Data
         protected readonly IMongoDatabase _mongoDatabase;
         public ReportManagementContext(MongoUrl mongoUrl)
         {
+            if (mongoUrl.DatabaseName == null)
+            {
+                throw new Exception("Mongo database null");
+            }
             _mongoClient = new MongoClient(mongoUrl);
             _mongoDatabase = _mongoClient.GetDatabase(mongoUrl.DatabaseName);
         }
@@ -20,5 +24,15 @@ namespace Chat.Module.Report.Data
         public IMongoClient MongoClient => _mongoClient;
 
         public IMongoDatabase MongoDatabase => _mongoDatabase;
+
+        public void DropDatabase(string databaseName)
+        {
+            this._mongoClient.DropDatabase(databaseName);
+        }
+
+        public void DropCollection(string collectionName)
+        {
+            this._mongoDatabase.DropCollection(collectionName);
+        }
     }
 }

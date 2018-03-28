@@ -18,8 +18,10 @@ namespace Chat.Core.Data
 
         UpdateResult Update(FilterDefinition<TEntity> filterDefinition, UpdateDefinition<TEntity> updateDefinition);
 
-        void Delete(TKey key);
+        DeleteResult Delete(TKey key);
 
-        void Delete(TEntity entity);
+        DeleteResult Delete(TEntity entity);
+
+        ReplaceOneResult Save(TEntity entity);
     }
 }

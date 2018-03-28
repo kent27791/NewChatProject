@@ -6,11 +6,9 @@ namespace Chat.Core.Configuration
 {
     public interface ISettings
     {
-        ConnectionStrings ConnectionStrings { get; set; }
+        Databases Databases { get; set; }
 
-        MongoConnectionStrings MongoDbConnectionStrings { get; set; }
-
-        Redis Redis { get; set; }
+        Cachings Cachings { get; set; }
 
         JwtBearer JwtBearer { get; set; }
     }
