@@ -8,11 +8,14 @@ using Chat.Module.Core.Data;
 using Chat.Module.Core.Models;
 using Chat.Service;
 using Dapper;
+using Chat.Core.Caching;
+
 namespace Chat.Module.Core.Services
 {
     public class UserService : BaseService<ChatManagementContext, User, long>, IUserService
     {
-        public UserService(IRepository<ChatManagementContext, User, long> repository) : base(repository)
+        public UserService(IRepository<ChatManagementContext, User, long> repository, IStaticCacheManager cacheManager) 
+            : base(repository, cacheManager)
         {
             
         }

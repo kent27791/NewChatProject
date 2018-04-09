@@ -1,6 +1,7 @@
 ﻿using AutoMapper.QueryableExtensions;
 using Chat.Common.DataTable;
 using Chat.Common.Extentions;
+using Chat.Core.Caching;
 using Chat.Core.Data;
 using Chat.Core.Domain;
 using Chat.Core.Service;
@@ -16,12 +17,14 @@ namespace Chat.Service
         where TContext : class
     {
         protected readonly IRepository<TContext, TEntity, TKey> _repository;
+        protected readonly IStaticCacheManager _cacheManager;
 
         public IRepository<TContext, TEntity, TKey> Repository => _repository;
 
-        public BaseService(IRepository<TContext, TEntity, TKey> repository)
+        public BaseService(IRepository<TContext, TEntity, TKey> repository, IStaticCacheManager cacheManager)
         {
             this._repository = repository;
+            this._cacheManager = cacheManager;
         }
 
         public TEntity Find(TKey key)

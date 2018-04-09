@@ -1,5 +1,4 @@
-﻿using Chat.Core.Caching;
-using Chat.Module.Report.Services;
+﻿using Chat.Module.Report.Services;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -12,19 +11,15 @@ namespace Chat.Module.Report.Controllers
     public class ReportController : Controller
     {
         private readonly IReportService _reportService;
-        private readonly IStaticCacheManager _staticCacheManager;
-        public ReportController(IReportService reportService, IStaticCacheManager staticCacheManager)
+        public ReportController(IReportService reportService)
         {
             this._reportService = reportService;
-            this._staticCacheManager = staticCacheManager;
         }
 
         [Route("test")]
         [HttpGet]
         public IActionResult Test()
         {
-            this._staticCacheManager.Set("Test", "Stringaaa", 50000);
-            var a = this._staticCacheManager.Get<string>("Test");
             var result = _reportService.FindAll();
             return Ok(result);
         }

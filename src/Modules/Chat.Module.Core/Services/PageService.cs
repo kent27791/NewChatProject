@@ -10,12 +10,14 @@ using System.Threading.Tasks;
 using AutoMapper.QueryableExtensions;
 using Chat.Module.Core.Enums;
 using Microsoft.EntityFrameworkCore;
+using Chat.Core.Caching;
 
 namespace Chat.Module.Core.Services
 {
     public class PageService : BaseService<ChatManagementContext, Page, long>, IPageService
     {
-        public PageService(IRepository<ChatManagementContext, Page, long> repository) : base(repository)
+        public PageService(IRepository<ChatManagementContext, Page, long> repository, IStaticCacheManager cacheManager) 
+            : base(repository, cacheManager)
         {
 
         }

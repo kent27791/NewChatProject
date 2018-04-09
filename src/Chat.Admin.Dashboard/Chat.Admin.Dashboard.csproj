@@ -5,11 +5,125 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="e2e\app.e2e-spec.ts" />
+    <None Remove="e2e\app.po.ts" />
+    <None Remove="src\app\app-routing.module.ts" />
+    <None Remove="src\app\app.component.spec.ts" />
+    <None Remove="src\app\app.component.ts" />
+    <None Remove="src\app\app.module.ts" />
+    <None Remove="src\app\modules\authentication\authentication-routing.module.ts" />
+    <None Remove="src\app\modules\authentication\authentication.module.ts" />
+    <None Remove="src\app\modules\authentication\components\sign-in\sign-in.component.spec.ts" />
+    <None Remove="src\app\modules\authentication\components\sign-in\sign-in.component.ts" />
+    <None Remove="src\app\modules\authentication\components\sign-up\sign-up.component.spec.ts" />
+    <None Remove="src\app\modules\authentication\components\sign-up\sign-up.component.ts" />
+    <None Remove="src\app\modules\authentication\services\auth.service.spec.ts" />
+    <None Remove="src\app\modules\authentication\services\auth.service.ts" />
+    <None Remove="src\app\modules\security\components\page\page.component.spec.ts" />
+    <None Remove="src\app\modules\security\components\page\page.component.ts" />
+    <None Remove="src\app\modules\security\components\role\role.component.spec.ts" />
+    <None Remove="src\app\modules\security\components\role\role.component.ts" />
+    <None Remove="src\app\modules\security\components\user\user.component.spec.ts" />
+    <None Remove="src\app\modules\security\components\user\user.component.ts" />
+    <None Remove="src\app\modules\security\security-routing.module.ts" />
+    <None Remove="src\app\modules\security\security.module.ts" />
+    <None Remove="src\app\modules\security\services\page.service.spec.ts" />
+    <None Remove="src\app\modules\security\services\page.service.ts" />
+    <None Remove="src\app\modules\security\services\role.service.spec.ts" />
+    <None Remove="src\app\modules\security\services\role.service.ts" />
+    <None Remove="src\app\modules\security\services\user.service.spec.ts" />
+    <None Remove="src\app\modules\security\services\user.service.ts" />
+    <None Remove="src\app\shared\components\errors\page-not-found\page-not-found.component.spec.ts" />
+    <None Remove="src\app\shared\components\errors\page-not-found\page-not-found.component.ts" />
+    <None Remove="src\app\shared\components\layouts\admin-layout\admin-layout.component.spec.ts" />
+    <None Remove="src\app\shared\components\layouts\admin-layout\admin-layout.component.ts" />
+    <None Remove="src\app\shared\components\layouts\auth-layout\auth-layout.component.spec.ts" />
+    <None Remove="src\app\shared\components\layouts\auth-layout\auth-layout.component.ts" />
+    <None Remove="src\app\shared\components\modals\create-or-update-modal\create-or-update-modal.component.spec.ts" />
+    <None Remove="src\app\shared\components\modals\create-or-update-modal\create-or-update-modal.component.ts" />
+    <None Remove="src\app\shared\components\modals\delete-modal\delete-modal.component.spec.ts" />
+    <None Remove="src\app\shared\components\modals\delete-modal\delete-modal.component.ts" />
+    <None Remove="src\app\shared\directives\icheck.directive.spec.ts" />
+    <None Remove="src\app\shared\directives\icheck.directive.ts" />
+    <None Remove="src\app\shared\guards\auth.guard.spec.ts" />
+    <None Remove="src\app\shared\guards\auth.guard.ts" />
+    <None Remove="src\app\shared\interceptors\token.interceptor.ts" />
+    <None Remove="src\app\shared\models\datatable-reponse.model.ts" />
+    <None Remove="src\app\shared\models\datatable-request.model.ts" />
+    <None Remove="src\app\shared\services\base.service.spec.ts" />
+    <None Remove="src\app\shared\services\base.service.ts" />
+    <None Remove="src\app\shared\shared.module.ts" />
+    <None Remove="src\environments\environment.prod.ts" />
+    <None Remove="src\environments\environment.ts" />
+    <None Remove="src\main.ts" />
+    <None Remove="src\polyfills.ts" />
+    <None Remove="src\test.ts" />
+    <None Remove="src\typings.d.ts" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="wwwroot\" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.5" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <TypeScriptCompile Include="e2e\app.e2e-spec.ts" />
+    <TypeScriptCompile Include="e2e\app.po.ts" />
+    <TypeScriptCompile Include="src\app\app-routing.module.ts" />
+    <TypeScriptCompile Include="src\app\app.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\app.component.ts" />
+    <TypeScriptCompile Include="src\app\app.module.ts" />
+    <TypeScriptCompile Include="src\app\modules\authentication\authentication-routing.module.ts" />
+    <TypeScriptCompile Include="src\app\modules\authentication\authentication.module.ts" />
+    <TypeScriptCompile Include="src\app\modules\authentication\components\sign-in\sign-in.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\modules\authentication\components\sign-in\sign-in.component.ts" />
+    <TypeScriptCompile Include="src\app\modules\authentication\components\sign-up\sign-up.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\modules\authentication\components\sign-up\sign-up.component.ts" />
+    <TypeScriptCompile Include="src\app\modules\authentication\services\auth.service.spec.ts" />
+    <TypeScriptCompile Include="src\app\modules\authentication\services\auth.service.ts" />
+    <TypeScriptCompile Include="src\app\modules\security\components\page\page.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\modules\security\components\page\page.component.ts" />
+    <TypeScriptCompile Include="src\app\modules\security\components\role\role.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\modules\security\components\role\role.component.ts" />
+    <TypeScriptCompile Include="src\app\modules\security\components\user\user.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\modules\security\components\user\user.component.ts" />
+    <TypeScriptCompile Include="src\app\modules\security\security-routing.module.ts" />
+    <TypeScriptCompile Include="src\app\modules\security\security.module.ts" />
+    <TypeScriptCompile Include="src\app\modules\security\services\page.service.spec.ts" />
+    <TypeScriptCompile Include="src\app\modules\security\services\page.service.ts" />
+    <TypeScriptCompile Include="src\app\modules\security\services\role.service.spec.ts" />
+    <TypeScriptCompile Include="src\app\modules\security\services\role.service.ts" />
+    <TypeScriptCompile Include="src\app\modules\security\services\user.service.spec.ts" />
+    <TypeScriptCompile Include="src\app\modules\security\services\user.service.ts" />
+    <TypeScriptCompile Include="src\app\shared\components\errors\page-not-found\page-not-found.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\shared\components\errors\page-not-found\page-not-found.component.ts" />
+    <TypeScriptCompile Include="src\app\shared\components\layouts\admin-layout\admin-layout.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\shared\components\layouts\admin-layout\admin-layout.component.ts" />
+    <TypeScriptCompile Include="src\app\shared\components\layouts\auth-layout\auth-layout.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\shared\components\layouts\auth-layout\auth-layout.component.ts" />
+    <TypeScriptCompile Include="src\app\shared\components\modals\create-or-update-modal\create-or-update-modal.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\shared\components\modals\create-or-update-modal\create-or-update-modal.component.ts" />
+    <TypeScriptCompile Include="src\app\shared\components\modals\delete-modal\delete-modal.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\shared\components\modals\delete-modal\delete-modal.component.ts" />
+    <TypeScriptCompile Include="src\app\shared\directives\icheck.directive.spec.ts" />
+    <TypeScriptCompile Include="src\app\shared\directives\icheck.directive.ts" />
+    <TypeScriptCompile Include="src\app\shared\guards\auth.guard.spec.ts" />
+    <TypeScriptCompile Include="src\app\shared\guards\auth.guard.ts" />
+    <TypeScriptCompile Include="src\app\shared\interceptors\token.interceptor.ts" />
+    <TypeScriptCompile Include="src\app\shared\models\datatable-reponse.model.ts" />
+    <TypeScriptCompile Include="src\app\shared\models\datatable-request.model.ts" />
+    <TypeScriptCompile Include="src\app\shared\services\base.service.spec.ts" />
+    <TypeScriptCompile Include="src\app\shared\services\base.service.ts" />
+    <TypeScriptCompile Include="src\app\shared\shared.module.ts" />
+    <TypeScriptCompile Include="src\environments\environment.prod.ts" />
+    <TypeScriptCompile Include="src\environments\environment.ts" />
+    <TypeScriptCompile Include="src\main.ts" />
+    <TypeScriptCompile Include="src\polyfills.ts" />
+    <TypeScriptCompile Include="src\test.ts" />
+    <TypeScriptCompile Include="src\typings.d.ts" />
   </ItemGroup>
 
 </Project>

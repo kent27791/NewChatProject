@@ -14,30 +14,28 @@ using Microsoft.CodeAnalysis;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
-
 using Newtonsoft.Json.Serialization;
 
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 
+using AutoMapper;
+
+using MongoDB.Driver;
+
 using Chat.Core.Configuration;
 using Chat.Core.Data;
-using Chat.Data;
+using Chat.Core.Caching;
+
+using Chat.Data.Repository;
+using Chat.Data.Caching;
 
 using Chat.Module.Core.Models;
 using Chat.Module.Core.Extentions;
 using Chat.Module.Core.Data;
+using Chat.Module.Report.Data;
 
 using Chat.Admin.Api.Security;
-using AutoMapper;
-using Chat.Module.Report.Data;
-using MongoDB.Driver;
-using System.Globalization;
-using Newtonsoft.Json;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Localization;
-using Chat.Core.Caching;
-
 namespace Chat.Admin.Api.Extentions
 {
     public static class ServiceCollectionExtensions

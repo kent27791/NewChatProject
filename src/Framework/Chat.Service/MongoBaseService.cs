@@ -1,4 +1,5 @@
-﻿using Chat.Core.Data;
+﻿using Chat.Core.Caching;
+using Chat.Core.Data;
 using Chat.Core.Domain;
 using Chat.Core.Service;
 using MongoDB.Bson;
@@ -14,10 +15,12 @@ namespace Chat.Service
          where TEntity : IBaseEntityWithTypeId<TKey>
     {
         protected readonly IMongoRepository<TContext, TEntity, TKey> _repository;
+        protected readonly IStaticCacheManager _cacheManager;
 
-        public MongoBaseService(IMongoRepository<TContext, TEntity, TKey> repository)
+        public MongoBaseService(IMongoRepository<TContext, TEntity, TKey> repository, IStaticCacheManager cacheManager)
         {
             this._repository = repository;
+            this._cacheManager = cacheManager;
         }
 
         public IMongoRepository<TContext, TEntity, TKey> Repository => _repository;
@@ -38,22 +41,22 @@ namespace Chat.Service
 
         public bool Update(FilterDefinition<TEntity> filterDefinition, UpdateDefinition<TEntity> updateDefinition)
         {
-            return _repository.Update(filterDefinition, updateDefinition).IsAcknowledged;
+            return _repository.Update(filterDefinition, updateDefinition).ModifiedCount > 0;
         }
 
         public bool Delete(TKey key)
         {
-            return _repository.Delete(key).IsAcknowledged;
+            return _repository.Delete(key).DeletedCount > 0;
         }
 
         public bool Delete(TEntity entity)
         {
-            return _repository.Delete(entity).IsAcknowledged;
+            return _repository.Delete(entity).DeletedCount > 0;
         }
 
         public bool Save(TEntity entity)
         {
-            return _repository.Save(entity).IsAcknowledged;
+            return _repository.Save(entity).ModifiedCount > 0;
         }
     }
 }
